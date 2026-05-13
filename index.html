@@ -3,21 +3,21 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>Thiệp chúc mừng sinh nhật Liên Liên</title>
+<title>Quà sinh nhật Đức dành tặng Liên Liên</title>
 
-<meta name="description" content="Thiệp chúc mừng sinh nhật Liên Liên — mở thiệp để xem bất ngờ và đến tham dự cùng mình nhé." />
+<meta name="description" content="Một món quà sinh nhật nhỏ Đức dành riêng cho Liên Liên — mở ra để nghe những lời yêu thương anh muốn gửi đến em." />
 
 <!-- Link preview (Open Graph / Facebook / Zalo / Messenger, etc.) -->
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Thiệp chúc mừng sinh nhật Liên Liên" />
-<meta property="og:description" content="Mở thiệp để xem bất ngờ và đến tham dự cùng mình nhé." />
+<meta property="og:title" content="Quà sinh nhật Đức dành tặng Liên Liên" />
+<meta property="og:description" content="Mở ra để nghe những lời chúc và yêu thương Đức dành riêng cho Liên Liên." />
 <meta property="og:image" content="thiep.jpeg" />
-<meta property="og:image:alt" content="Thiệp chúc mừng sinh nhật Liên Liên" />
+<meta property="og:image:alt" content="Quà sinh nhật Đức dành tặng Liên Liên" />
 
 <!-- Link preview (Twitter/X) -->
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Thiệp chúc mừng sinh nhật Liên Liên" />
-<meta name="twitter:description" content="Mở thiệp để xem bất ngờ và nghe nhạc." />
+<meta name="twitter:title" content="Quà sinh nhật Đức dành tặng Liên Liên" />
+<meta name="twitter:description" content="Mở ra để nghe những lời chúc và yêu thương Đức dành riêng cho Liên Liên." />
 <meta name="twitter:image" content="thiep.jpeg" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1262,24 +1262,24 @@
 <div id="hud" aria-hidden="true"><div id="hudMessage"></div></div>
 <div id="wishesOverlay" aria-hidden="true">
   <div id="lanternLayer" aria-hidden="true"></div>
-  <button id="wishFab" type="button" aria-label="Gửi lời chúc">💌 Gửi lời chúc</button>
+  <button id="wishFab" type="button" aria-label="Gửi lời nhắn">💌 Gửi lời nhắn</button>
   <div id="wishModal" aria-hidden="true">
     <div id="wishModalBackdrop"></div>
-    <div id="wishModalCard" role="dialog" aria-modal="true" aria-label="Gửi lời chúc">
-      <h3>Gửi lời chúc tới Liên Liên</h3>
+    <div id="wishModalCard" role="dialog" aria-modal="true" aria-label="Gửi lời nhắn">
+      <h3>Gửi lời nhắn cho Liên Liên</h3>
       <div class="wishField">
         <label for="wishName">Tên (không bắt buộc)</label>
         <input id="wishName" maxlength="40" placeholder="Ví dụ: Liên Liên" />
       </div>
       <div class="wishField">
-        <label for="wishMessage">Lời chúc</label>
-        <textarea id="wishMessage" maxlength="240" placeholder="Viết lời chúc của bạn..."></textarea>
+        <label for="wishMessage">Lời nhắn</label>
+        <textarea id="wishMessage" maxlength="240" placeholder="Viết điều bạn muốn nhắn tới Liên Liên..."></textarea>
       </div>
       <div class="wishField">
         <label for="wishImage">Ảnh (không bắt buộc)</label>
         <input id="wishImage" type="file" accept="image/*" />
         <div id="wishImagePreview" aria-hidden="true"></div>
-        <div class="wishHint">Thêm một kỷ niệm nhỏ bằng ảnh — ảnh sẽ được gắn vào chiếc đèn lồng và bay cùng lời chúc của bạn.</div>
+        <div class="wishHint">Thêm một kỷ niệm nhỏ bằng ảnh — ảnh sẽ được gắn vào chiếc đèn lồng và bay cùng lời nhắn của bạn.</div>
       </div>
       <div id="wishActions">
         <button class="wishBtn" id="wishCancel" type="button">Đóng</button>
@@ -1292,32 +1292,31 @@
     <div id="photoModalBackdrop"></div>
     <div id="photoModalCard" role="dialog" aria-modal="true" aria-label="Xem ảnh">
       <button id="photoModalClose" type="button">Đóng</button>
-      <img id="photoModalImg" alt="Ảnh lời chúc" />
+      <img id="photoModalImg" alt="Ảnh kỷ niệm" />
     </div>
   </div>
 </div>
 <div id="finalOverlay" aria-hidden="true">
   <div id="finalMessageWrap">
-    <div id="finalTitle">Hẹn gặp mọi người</div>
-    <div id="finalText">Mời các bạn tới nhà mình lúc <strong>7h</strong> <strong>thứ 7</strong> tuần này để làm nồi lẩu nhé 🫕✨</div>
+    <div id="finalTitle">Yêu em nhiều lắm</div>
+    <div id="finalText">Chúc Liên Liên có một tuổi mới thật dịu dàng, thật hạnh phúc và luôn có anh ở bên để yêu thương, chở che em mỗi ngày ❤️</div>
   </div>
 </div>
-<div id="cardOverlay" class="card-overlay" role="button" aria-label="Mở thiệp chúc mừng sinh nhật" tabindex="0">
+<div id="cardOverlay" class="card-overlay" role="button" aria-label="Mở món quà sinh nhật anh dành cho em" tabindex="0">
   <div class="card" aria-hidden="false">
     <div class="card-base" aria-hidden="true">
       <div class="card-base-content">
         <div class="card-inside">
           <div class="inside-left">
             <div>
-              <div class="card-base-title">Chúc mừng sinh nhật Liên Liên</div>
-              <div class="card-base-sub"> 27/01/2026 ✨</div>
+              <div class="card-base-title">Chúc mừng sinh nhật em yêu Liên Liên</div>
+              <div class="card-base-sub"> 14/05/2026 ✨</div>
             </div>
           </div>
           <div class="inside-right">
             <div>
-              <div class="card-base-title">Mời các bạn tới dự sinh nhật với mình nhé</div>
-              <div class="card-base-sub">Địa chỉ nhà mk nha: XM92+PWM, Tỉnh Lộ 516B, TT. Quán Lào, Yên Định, Thanh Hóa. 
-Quán tóc Hair salon lan anh nhé 🎶</div>
+              <div class="card-base-title">Từ anh Đức đẹp zai gửi tới cô gái anh thương nhất</div>
+              <div class="card-base-sub">Cảm ơn em vì đã xuất hiện, vì đã làm mỗi ngày của anh trở nên dịu dàng hơn. Mong tuổi mới của em luôn đầy tiếng cười, bình yên và thật nhiều yêu thương nhé.</div>
             </div>
           </div>
         </div>
@@ -1328,11 +1327,11 @@ Quán tóc Hair salon lan anh nhé 🎶</div>
       <div class="card-cover-face card-cover-front">
         <div class="cover-content">
           <div class="cover-frame">
-            <div class="frame-kicker">Thiệp chúc mừng sinh nhật</div>
+            <div class="frame-kicker">Món quà anh dành cho em</div>
             <div class="frame-divider" aria-hidden="true"></div>
             <div class="invite-title">Sinh nhật</div>
             <div class="invite-name">Liên Liên</div>
-            <div class="invite-hint">Click / chạm để mở</div>
+            <div class="invite-hint">Click / chạm để mở lời anh muốn nói</div>
           </div>
         </div>
       </div>
@@ -1342,7 +1341,7 @@ Quán tóc Hair salon lan anh nhé 🎶</div>
 
 <audio id="bgMusic" src="music.mp3" preload="auto" loop playsinline></audio>
 
-<div id="text">🎂 Chúc mừng sinh nhật Liên Liên ❤️ Chúc Liên Liên luôn luôn rực rỡ rạng ngời ✨</div>
+<div id="text">🎂 Chúc mừng sinh nhật em yêu Liên Liên ❤️ Cảm ơn em vì đã đến bên anh và làm trái tim anh dịu lại mỗi ngày ✨</div>
 
 <script>
 (() => {
@@ -1355,9 +1354,9 @@ Quán tóc Hair salon lan anh nhé 🎶</div>
   // Music files for random play
   const MUSIC_FILES = [
     'music.mp3',
-    'music2.mp3',
-    'music3.mp3',
-    'music4.mp3'
+    // 'music2.mp3',
+    // 'music3.mp3',
+    // 'music4.mp3'
   ];
 
   function pickMusicFile() {
@@ -1535,11 +1534,11 @@ Quán tóc Hair salon lan anh nhé 🎶</div>
   if (!hudMessage) return;
 
   const queue = [
-   { html: '🎉 <strong>Chúc mừng sinh nhật Liên Liên</strong> 🎉', ms: 7000 },
-{ html: 'Chúc Liên Liên luôn xinh đẹp theo cách rất riêng 💐', ms: 7000 },
-{ html: 'Tuổi mới thêm nhiều niềm vui và thành công 🍀', ms: 7000 },
-{ html: 'Luôn được yêu thương và trân trọng ❤️', ms: 7000 },
-{ html: 'Mọi điều mong ước đều sớm thành hiện thực ✨', ms: 7000 },
+   { html: '🎉 <strong>Chúc mừng sinh nhật em yêu Liên Liên</strong> 🎉', ms: 7000 },
+{ html: 'Từ anh Đức tới em: cảm ơn em vì đã làm cuộc sống của anh trở nên dịu dàng hơn 💐', ms: 7000 },
+{ html: 'Anh chúc em tuổi mới luôn xinh đẹp, vui vẻ và bình yên trong tim 🍀', ms: 7000 },
+{ html: 'Mong mọi điều tốt đẹp nhất sẽ luôn đến với em, theo cách thật nhẹ nhàng ❤️', ms: 7000 },
+{ html: 'Anh sẽ luôn ở đây, yêu em, thương em và đồng hành cùng em thật lâu ✨', ms: 7000 },
 
   ];
 
@@ -1590,7 +1589,7 @@ const CONFIG = {
   heartScale: 0.9,
   particleSize: 0.7,
   ringParticles: 3000,
-  imageUrl: "laanh.jpg",
+  imageUrl: "avatar.jpg",
   imageSize: 13               // Kích thước ảnh trong tim
 };
 
@@ -1964,7 +1963,7 @@ function ensureMidBirthdayText() {
   grad.addColorStop(0.5, 'rgba(255,180,222,0.98)');
   grad.addColorStop(1, 'rgba(200,190,255,0.98)');
   ctx.fillStyle = grad;
-  ctx.fillText('HAPPY BIRTHDAY', canvas.width / 2, 98);
+  ctx.fillText('FOR MY LOVE', canvas.width / 2, 98);
 
   // Line 2
   ctx.shadowColor = 'rgba(160,120,255,0.45)';
@@ -1978,7 +1977,7 @@ function ensureMidBirthdayText() {
   ctx.shadowBlur = 0;
   ctx.lineWidth = 3;
   ctx.strokeStyle = 'rgba(0,0,0,0.28)';
-  ctx.strokeText('HAPPY BIRTHDAY', canvas.width / 2, 98);
+  ctx.strokeText('FOR MY LOVE', canvas.width / 2, 98);
   ctx.strokeText('Liên Liên', canvas.width / 2, 168);
 
   const tex = new THREE.CanvasTexture(canvas);
@@ -2230,7 +2229,7 @@ function cleanupLanternSlots() {
 function nextWish() {
   if (wishesPriority.length) return wishesPriority.shift();
   if (!wishesPool.length) {
-    return { name: 'Góc lời chúc', message: 'Bấm “Gửi lời chúc” để gửi điều bạn muốn nói tới Liên Liên nhé ✨' };
+    return { name: 'Góc yêu thương', message: 'Bấm “Gửi lời nhắn” để viết vài điều dễ thương gửi tới Liên Liên nhé ✨' };
   }
 
   // IMPORTANT: show ALL wishes once (cycle 1) before looping to cycle 2.
@@ -2249,7 +2248,7 @@ function nextWish() {
 function peekNextWish() {
   if (wishesPriority.length) return wishesPriority[0];
   if (!wishesPool.length) {
-    return { name: 'Góc lời chúc', message: 'Bấm “Gửi lời chúc” để gửi điều bạn muốn nói tới Liên Liên nhé ✨' };
+    return { name: 'Góc yêu thương', message: 'Bấm “Gửi lời nhắn” để viết vài điều dễ thương gửi tới Liên Liên nhé ✨' };
   }
 
   // Mirror cycle behavior, but do not mutate state.
@@ -2273,11 +2272,11 @@ function setLanternContent(lantern, wish) {
 
   const nameEl = document.createElement('div');
   nameEl.className = 'lantern-name';
-  nameEl.textContent = safeName ? safeName : 'Một người bạn';
+  nameEl.textContent = safeName ? safeName : 'Đức';
 
   const msgEl = document.createElement('div');
   msgEl.className = 'lantern-msg';
-  msgEl.textContent = safeMsg || 'Chúc Liên Liên một tuổi mới thật rực rỡ ✨';
+  msgEl.textContent = safeMsg || 'Chúc em yêu của anh một tuổi mới thật hạnh phúc và luôn cười thật nhiều ✨';
 
   inner.appendChild(nameEl);
   inner.appendChild(msgEl);
@@ -2434,11 +2433,11 @@ function spawnLantern(wish, forcedSlot) {
 
   const nameEl = document.createElement('div');
   nameEl.className = 'lantern-name';
-  nameEl.textContent = safeName ? safeName : 'Một người bạn';
+  nameEl.textContent = safeName ? safeName : 'Đức';
 
   const msgEl = document.createElement('div');
   msgEl.className = 'lantern-msg';
-  msgEl.textContent = safeMsg || 'Chúc Liên Liên một tuổi mới thật rực rỡ ✨';
+  msgEl.textContent = safeMsg || 'Chúc em yêu của anh một tuổi mới thật hạnh phúc và luôn cười thật nhiều ✨';
 
   inner.appendChild(nameEl);
   inner.appendChild(msgEl);
@@ -2461,7 +2460,7 @@ function spawnLantern(wish, forcedSlot) {
     const img = document.createElement('img');
     img.className = 'lantern-photo';
     img.src = imageUrl;
-    img.alt = 'Ảnh lời chúc';
+    img.alt = 'Ảnh kỷ niệm';
     img.loading = 'lazy';
     img.decoding = 'async';
 
@@ -2942,11 +2941,26 @@ imgElement.onload = function() {
   // Vẽ ảnh trước
   const heartWidth = 32 * scale;
   const heartHeight = 30 * scale;
-  const imgW = heartWidth * 0.95;
-  const imgH = heartHeight * 1.1;
-  const imgX = (size - imgW) / 2;
-  const imgY = offsetY - heartHeight * 0.35;
-  tempCtx.drawImage(imgElement, imgX, imgY, imgW, imgH);
+  const destW = heartWidth * 0.92;
+  const destH = heartHeight * 1.02;
+  const destX = (size - destW) / 2;
+  const destY = offsetY - heartHeight * 0.56;
+
+  const srcW = imgElement.naturalWidth || imgElement.width;
+  const srcH = imgElement.naturalHeight || imgElement.height;
+  const srcAspect = srcW / srcH;
+  const destAspect = destW / destH;
+  let cropW = srcW;
+  let cropH = srcH;
+  if (srcAspect > destAspect) {
+    cropW = srcH * destAspect;
+  } else {
+    cropH = srcW / destAspect;
+  }
+  const cropX = (srcW - cropW) / 2;
+  const faceFocusY = 0.66;
+  const cropY = Math.max(0, Math.min(srcH - cropH, srcH * faceFocusY - cropH / 2));
+  tempCtx.drawImage(imgElement, cropX, cropY, cropW, cropH, destX, destY, destW, destH);
   
   // Tạo mask gradient mềm
   const maskCanvas = document.createElement('canvas');
@@ -3499,7 +3513,7 @@ function drawBannerText() {
   ctx.shadowColor = 'rgba(0,0,0,0.35)';
   ctx.shadowBlur = 16;
   ctx.shadowOffsetY = 8;
-  ctx.fillText('Chúc mừng sinh nhật', bannerCanvas.width / 2, 108);
+  ctx.fillText('Duc loves Lien', bannerCanvas.width / 2, 108);
 
   ctx.shadowBlur = 0;
   ctx.font = '400 64px "Great Vibes", cursive';
