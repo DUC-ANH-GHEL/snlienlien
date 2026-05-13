@@ -660,29 +660,24 @@
   .lantern {
     position: relative;
     width: 100%;
-    min-height: 160px;
-    padding: 34px 16px 42px;
-    border-radius: 120px;
+    min-height: 228px;
+    padding: 28px 16px 62px;
+    border-radius: 34% 34% 18% 18% / 18% 18% 28% 28%;
     overflow: hidden;
-    border: 1px solid rgba(255, 235, 230, 0.40);
+    border: 1px solid rgba(255, 235, 230, 0.30);
     background:
-      /* 3D rim + specular highlight */
-      radial-gradient(140px 110px at 35% 26%, rgba(255,255,255,0.38), rgba(255,255,255,0.0) 66%),
-      radial-gradient(120px 96px at 50% 52%, rgba(255, 248, 230, 0.92), rgba(255, 246, 220, 0.0) 74%),
-      radial-gradient(130px 78px at 50% 92%, rgba(255, 195, 150, 0.34), rgba(255, 175, 130, 0.0) 75%),
-      /* subtle paper ribs */
-      repeating-linear-gradient(90deg, rgba(255,255,255,0.10) 0 4px, rgba(0,0,0,0) 4px 18px),
-      /* side shading for volume */
-      linear-gradient(90deg, rgba(0,0,0,0.16), rgba(0,0,0,0.0) 22%, rgba(0,0,0,0.0) 78%, rgba(0,0,0,0.18)),
-      /* main body */
-      linear-gradient(180deg, rgba(255, 62, 110, 0.96), rgba(120, 10, 70, 0.82));
+      radial-gradient(132px 110px at 50% 42%, rgba(255, 244, 223, 0.82), rgba(255, 224, 186, 0.18) 36%, rgba(255, 205, 160, 0.0) 62%),
+      radial-gradient(180px 140px at 30% 24%, rgba(255,255,255,0.22), rgba(255,255,255,0.0) 62%),
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.10) 0 3px, rgba(255,255,255,0.0) 3px 18px),
+      linear-gradient(90deg, rgba(87, 22, 40, 0.34), rgba(0,0,0,0.0) 18%, rgba(0,0,0,0.0) 82%, rgba(62, 14, 28, 0.34)),
+      linear-gradient(180deg, rgba(255, 120, 132, 0.96), rgba(209, 77, 97, 0.90) 34%, rgba(108, 26, 49, 0.88) 100%);
     box-shadow:
-      0 34px 86px rgba(0,0,0,0.52),
-      0 0 58px rgba(255, 170, 120, 0.26),
-      0 0 22px rgba(255, 120, 170, 0.18),
-      inset 0 16px 34px rgba(255, 240, 220, 0.16),
-      inset 0 -26px 40px rgba(0, 0, 0, 0.22);
-    filter: drop-shadow(0 0 14px rgba(255, 200, 160, 0.22));
+      0 28px 68px rgba(0,0,0,0.42),
+      0 0 64px rgba(255, 192, 132, 0.32),
+      0 0 22px rgba(255, 130, 90, 0.18),
+      inset 0 10px 22px rgba(255,255,255,0.14),
+      inset 0 -36px 46px rgba(22, 2, 8, 0.28);
+    filter: drop-shadow(0 18px 28px rgba(0,0,0,0.26)) drop-shadow(0 0 16px rgba(255, 205, 150, 0.16));
     color: rgba(255,255,255,0.98);
     letter-spacing: 0.2px;
     text-shadow: 0 3px 14px rgba(0,0,0,0.55);
@@ -693,29 +688,30 @@
   .lantern .lantern-inner {
     position: relative;
     z-index: 2;
-    padding: 10px 10px 12px;
-    border-radius: 18px;
+    padding: 28px 16px 18px;
+    border-radius: 22px;
     background:
-      radial-gradient(140px 110px at 50% 45%, rgba(255, 220, 190, 0.16), rgba(255, 220, 190, 0.0) 62%),
-      linear-gradient(180deg, rgba(0,0,0,0.56), rgba(0,0,0,0.34));
-    border: 1px solid rgba(255,255,255,0.16);
+      radial-gradient(120px 120px at 50% 40%, rgba(255, 234, 204, 0.30), rgba(255, 230, 198, 0.0) 68%),
+      linear-gradient(180deg, rgba(124, 28, 52, 0.22), rgba(40, 4, 16, 0.10));
+    border: 1px solid rgba(255,255,255,0.12);
     box-shadow:
-      0 10px 22px rgba(0,0,0,0.22),
-      inset 0 0 0 1px rgba(0,0,0,0.15);
+      inset 0 0 0 1px rgba(255,255,255,0.05),
+      inset 0 18px 24px rgba(255,255,255,0.08),
+      inset 0 -18px 24px rgba(15,0,5,0.16);
   }
 
   .lantern .lantern-inner::after {
     /* glossy streak (adds 3D feel without extra DOM) */
     content: "";
     position: absolute;
-    inset: 8px;
-    border-radius: 16px;
+    inset: 10px 16px 18px;
+    border-radius: 18px;
     background: linear-gradient(115deg,
-      rgba(255,255,255,0.18) 0%,
-      rgba(255,255,255,0.06) 14%,
-      rgba(255,255,255,0.0) 36%,
+      rgba(255,255,255,0.20) 0%,
+      rgba(255,255,255,0.08) 16%,
+      rgba(255,255,255,0.0) 34%,
       rgba(255,255,255,0.0) 100%);
-    opacity: 0.55;
+    opacity: 0.68;
     pointer-events: none;
     mix-blend-mode: screen;
   }
@@ -725,14 +721,14 @@
     content: "";
     position: absolute;
     left: 50%;
-    top: 52%;
-    width: 120px;
-    height: 120px;
+    top: 50%;
+    width: 138px;
+    height: 138px;
     transform: translate(-50%, -50%);
     border-radius: 999px;
-    background: radial-gradient(circle at 50% 55%, rgba(255, 240, 210, 0.65), rgba(255, 180, 120, 0.0) 70%);
+    background: radial-gradient(circle at 50% 54%, rgba(255, 248, 232, 0.96), rgba(255, 213, 156, 0.56) 28%, rgba(255, 176, 112, 0.16) 56%, rgba(255, 176, 112, 0.0) 76%);
     filter: blur(0.2px);
-    opacity: 0.85;
+    opacity: 0.96;
     pointer-events: none;
     z-index: -1;
   }
@@ -741,35 +737,32 @@
     content: "";
     position: absolute;
     left: 50%;
-    top: -28px;
-    width: 128px;
-    height: 44px;
+    top: -18px;
+    width: 118px;
+    height: 34px;
     transform: translateX(-50%);
-    border-radius: 999px;
-    border: 1px solid rgba(255, 230, 220, 0.26);
+    border-radius: 999px 999px 18px 18px;
+    border: 1px solid rgba(255, 236, 226, 0.22);
     background:
-      radial-gradient(16px 12px at 50% 10px, rgba(255, 230, 220, 0.55) 55%, rgba(0,0,0,0.0) 57%),
-      radial-gradient(14px 10px at 50% 9px, rgba(0,0,0,0.0) 52%, rgba(255, 230, 220, 0.40) 54%, rgba(0,0,0,0.0) 58%),
-      linear-gradient(180deg, rgba(25, 12, 38, 0.78), rgba(10, 6, 18, 0.56));
-    box-shadow: 0 14px 28px rgba(0,0,0,0.36);
-    opacity: 0.96;
+      radial-gradient(10px 7px at 50% 10px, rgba(255, 244, 228, 0.44) 52%, rgba(0,0,0,0.0) 56%),
+      linear-gradient(180deg, rgba(94, 28, 44, 0.94), rgba(42, 8, 21, 0.82));
+    box-shadow: 0 10px 18px rgba(0,0,0,0.28);
+    opacity: 0.98;
   }
 
   .lantern::after {
     content: "";
     position: absolute;
     left: 50%;
-    bottom: -56px;
-    width: 120px;
+    bottom: -58px;
+    width: 112px;
     height: 84px;
     transform: translateX(-50%);
-    border-radius: 999px;
+    border-radius: 999px 999px 20px 20px;
     background:
-      /* bottom cap */
-      radial-gradient(12px 10px at 50% 18px, rgba(255, 230, 220, 0.42), rgba(0,0,0,0.0) 70%),
-      linear-gradient(180deg, rgba(18, 10, 28, 0.86) 0 34px, rgba(0,0,0,0.0) 34px 100%),
-      /* tassel threads */
-      repeating-linear-gradient(90deg, rgba(255, 150, 190, 0.78) 0 2px, rgba(255, 150, 190, 0.0) 2px 8px);
+      radial-gradient(12px 9px at 50% 16px, rgba(255, 238, 220, 0.38), rgba(0,0,0,0.0) 72%),
+      linear-gradient(180deg, rgba(86, 22, 38, 0.92) 0 28px, rgba(0,0,0,0.0) 28px 100%),
+      repeating-linear-gradient(90deg, rgba(255, 194, 144, 0.84) 0 2px, rgba(255, 194, 144, 0.0) 2px 8px);
     box-shadow: 0 18px 30px rgba(0,0,0,0.24);
     opacity: 0.95;
   }
@@ -780,8 +773,8 @@
     transform: translateX(-50%);
     /* Anchor right at the lantern bottom so the rope starts there */
     top: calc(100% - 2px);
-    width: min(190px, calc(100% - 18px));
-    height: 360px;
+    width: min(190px, calc(100% - 26px));
+    height: 332px;
     pointer-events: none;
     z-index: 3;
   }
@@ -791,44 +784,45 @@
     left: 50%;
     /* Rope starts at the lantern bottom */
     top: 0;
-    width: 2px;
-    height: 170px;
+    width: 3px;
+    height: 138px;
     transform: translateX(-50%);
-    background: linear-gradient(180deg, rgba(255, 220, 210, 0.0), rgba(255, 220, 210, 0.62), rgba(255, 220, 210, 0.18));
-    box-shadow: 0 0 10px rgba(255, 190, 170, 0.28);
-    opacity: 0.9;
+    background: linear-gradient(180deg, rgba(255, 222, 192, 0.0), rgba(255, 226, 186, 0.76), rgba(255, 206, 166, 0.22));
+    box-shadow: 0 0 10px rgba(255, 196, 142, 0.24);
+    opacity: 0.92;
   }
 
   .lantern-photo {
     position: absolute;
     left: 50%;
-    top: 184px; /* rope(170) + gap(14) */
-    width: min(170px, calc(100% - 8px));
-    height: min(170px, calc(100% - 8px));
+    top: 152px;
+    width: min(158px, calc(100% - 14px));
+    height: min(158px, calc(100% - 14px));
     transform: translateX(-50%);
     object-fit: cover;
-    border-radius: 16px;
-    border: 1px solid rgba(255,255,255,0.20);
+    border-radius: 18px;
+    border: 1px solid rgba(255,245,235,0.28);
     box-shadow:
-      0 18px 44px rgba(0,0,0,0.55),
-      0 0 26px rgba(255, 170, 140, 0.20);
-    background: rgba(255,255,255,0.06);
+      0 18px 44px rgba(0,0,0,0.50),
+      0 0 26px rgba(255, 194, 132, 0.18),
+      inset 0 0 0 1px rgba(255,255,255,0.10);
+    background: rgba(255,255,255,0.08);
     pointer-events: auto;
     cursor: zoom-in;
   }
 
   .lantern-name {
     font-weight: 900;
-    font-size: 15px;
+    font-size: 16px;
     opacity: 1;
-    margin-bottom: 6px;
+    margin-bottom: 10px;
     text-align: center;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.65);
+    text-shadow: 0 2px 10px rgba(0,0,0,0.62);
   }
 
   .lantern-msg {
-    font-size: 15px;
-    line-height: 1.4;
+    font-size: 14px;
+    line-height: 1.48;
     opacity: 1;
     overflow: visible;
     display: block;
@@ -841,17 +835,17 @@
 
   .lantern-hearts {
     position: absolute;
-    right: 12px;
-    bottom: 10px;
+    right: 14px;
+    bottom: 12px;
     z-index: 3;
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 6px 10px;
+    padding: 6px 9px;
     border-radius: 999px;
-    border: 1px solid rgba(255,255,255,0.16);
-    background: rgba(0,0,0,0.28);
-    box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(33, 6, 14, 0.42);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.18);
     font-weight: 900;
     font-size: 12px;
     pointer-events: none;
@@ -1752,6 +1746,16 @@ let morphActive = false;
 let morphProgress = 0;
 let cakeDoneDispatched = false;
 const MORPH_DURATION_SEC = 6.5;
+let coupleAnchors = null;
+let coupleColorTargets = null;
+let coupleMorphActive = false;
+let coupleMorphProgress = 0;
+let coupleStartScheduled = false;
+let coupleDoneDispatched = false;
+let coupleBurstTriggered = false;
+const COUPLE_START_DELAY_MS = 2200;
+const COUPLE_HOLD_AFTER_MORPH_MS = 2400;
+const COUPLE_MORPH_DURATION_SEC = 5.8;
 
 // Candle flame mesh
 let flameMesh = null;
@@ -1886,6 +1890,270 @@ function generateCakeTargets(count) {
   return { targets, colors, candleTops };
 }
 
+function sampleEllipsePoint(cx, cy, rx, ry, depth = 0.9) {
+  const a = Math.random() * Math.PI * 2;
+  const r = Math.sqrt(Math.random());
+  return new THREE.Vector3(
+    cx + Math.cos(a) * rx * r,
+    cy + Math.sin(a) * ry * r,
+    (Math.random() - 0.5) * depth
+  );
+}
+
+function sampleRectPoint(cx, cy, hw, hh, depth = 0.8) {
+  return new THREE.Vector3(
+    cx + (Math.random() * 2 - 1) * hw,
+    cy + (Math.random() * 2 - 1) * hh,
+    (Math.random() - 0.5) * depth
+  );
+}
+
+function sampleCapsulePoint(x1, y1, x2, y2, radius, depth = 0.9) {
+  const t = Math.random();
+  const px = x1 + (x2 - x1) * t;
+  const py = y1 + (y2 - y1) * t;
+  const a = Math.random() * Math.PI * 2;
+  const r = Math.sqrt(Math.random()) * radius;
+  return new THREE.Vector3(
+    px + Math.cos(a) * r,
+    py + Math.sin(a) * r,
+    (Math.random() - 0.5) * depth
+  );
+}
+
+function sampleTrianglePoint(ax, ay, bx, by, cx, cy, depth = 0.9) {
+  let u = Math.random();
+  let v = Math.random();
+  if (u + v > 1) {
+    u = 1 - u;
+    v = 1 - v;
+  }
+  return new THREE.Vector3(
+    ax + (bx - ax) * u + (cx - ax) * v,
+    ay + (by - ay) * u + (cy - ay) * v,
+    (Math.random() - 0.5) * depth
+  );
+}
+
+function setColor(arr, idx, color) {
+  arr[idx] = color.r;
+  arr[idx + 1] = color.g;
+  arr[idx + 2] = color.b;
+}
+
+function generateCoupleTargets(count) {
+  const anchors = new Array(count);
+  const colors = new Float32Array(count * 3);
+
+  const maleParts = [
+    {
+      key: 'head',
+      weight: 0.12,
+      color: new THREE.Color().setHSL(0.06, 0.45, 0.84),
+      sample: () => sampleEllipsePoint(0.1, 8.8, 2.35, 2.9, 1.0)
+    },
+    {
+      key: 'shoulder',
+      weight: 0.06,
+      color: new THREE.Color().setHSL(0.02, 0.18, 0.25),
+      sample: () => sampleRectPoint(0.0, 5.7, 2.8, 1.0, 0.9)
+    },
+    {
+      key: 'torso',
+      weight: 0.23,
+      color: new THREE.Color().setHSL(0.02, 0.18, 0.18),
+      sample: () => sampleRectPoint(0.0, 1.8, 2.1, 4.8, 0.95)
+    },
+    {
+      key: 'hips',
+      weight: 0.08,
+      color: new THREE.Color().setHSL(0.02, 0.16, 0.2),
+      sample: () => sampleEllipsePoint(0.0, -3.1, 2.1, 1.2, 0.85)
+    },
+    {
+      key: 'arm_outer',
+      weight: 0.08,
+      color: new THREE.Color().setHSL(0.02, 0.18, 0.19),
+      sample: () => sampleCapsulePoint(-2.2, 4.5, -4.5, 0.8, 0.55, 0.8)
+    },
+    {
+      key: 'arm_inner',
+      weight: 0.12,
+      color: new THREE.Color().setHSL(0.02, 0.18, 0.19),
+      sample: () => sampleCapsulePoint(2.0, 4.8, 4.7, 4.4, 0.62, 0.8)
+    },
+    {
+      key: 'leg_left',
+      weight: 0.15,
+      color: new THREE.Color().setHSL(0.02, 0.16, 0.15),
+      sample: () => sampleCapsulePoint(-1.0, -4.0, -1.8, -11.2, 0.62, 0.9)
+    },
+    {
+      key: 'leg_right',
+      weight: 0.16,
+      color: new THREE.Color().setHSL(0.02, 0.16, 0.15),
+      sample: () => sampleCapsulePoint(0.9, -4.0, 1.7, -11.0, 0.62, 0.9)
+    }
+  ];
+
+  const femaleParts = [
+    {
+      key: 'hair',
+      weight: 0.14,
+      color: new THREE.Color().setHSL(0.92, 0.44, 0.28),
+      sample: () => sampleEllipsePoint(0.0, 8.9, 3.1, 3.8, 1.05)
+    },
+    {
+      key: 'head',
+      weight: 0.09,
+      color: new THREE.Color().setHSL(0.05, 0.5, 0.86),
+      sample: () => sampleEllipsePoint(0.2, 8.9, 2.15, 2.65, 0.95)
+    },
+    {
+      key: 'upper',
+      weight: 0.17,
+      color: new THREE.Color().setHSL(0.95, 0.72, 0.63),
+      sample: () => sampleRectPoint(0.0, 2.9, 2.0, 3.5, 0.9)
+    },
+    {
+      key: 'dress',
+      weight: 0.2,
+      color: new THREE.Color().setHSL(0.97, 0.78, 0.62),
+      sample: () => sampleTrianglePoint(-3.0, 0.8, 3.0, 0.8, 0.0, -8.7, 0.95)
+    },
+    {
+      key: 'arm_inner',
+      weight: 0.12,
+      color: new THREE.Color().setHSL(0.96, 0.68, 0.64),
+      sample: () => sampleCapsulePoint(-2.0, 5.0, -4.9, 4.6, 0.58, 0.8)
+    },
+    {
+      key: 'arm_outer',
+      weight: 0.08,
+      color: new THREE.Color().setHSL(0.96, 0.68, 0.64),
+      sample: () => sampleCapsulePoint(2.0, 4.5, 4.0, 1.0, 0.48, 0.8)
+    },
+    {
+      key: 'leg_left',
+      weight: 0.1,
+      color: new THREE.Color().setHSL(0.97, 0.3, 0.93),
+      sample: () => sampleCapsulePoint(-0.9, -8.2, -1.35, -11.7, 0.42, 0.7)
+    },
+    {
+      key: 'leg_right',
+      weight: 0.1,
+      color: new THREE.Color().setHSL(0.97, 0.3, 0.93),
+      sample: () => sampleCapsulePoint(0.8, -8.2, 1.2, -11.5, 0.42, 0.7)
+    }
+  ];
+
+  function writeFigure(offset, amount, side, defs) {
+    let written = 0;
+    for (let di = 0; di < defs.length; di++) {
+      const def = defs[di];
+      const remaining = amount - written;
+      if (remaining <= 0) break;
+      const share = (di === defs.length - 1) ? remaining : Math.max(1, Math.round(amount * def.weight));
+      const take = Math.min(remaining, share);
+      for (let i = 0; i < take; i++) {
+        const p = def.sample();
+        anchors[offset + written] = {
+          local: p,
+          side,
+          part: def.key,
+          phase: Math.random() * Math.PI * 2
+        };
+        setColor(colors, (offset + written) * 3, def.color);
+        written++;
+      }
+    }
+    return written;
+  }
+
+  const maleCount = Math.floor(count * 0.5);
+  const femaleCount = count - maleCount;
+  writeFigure(0, maleCount, -1, maleParts);
+  writeFigure(maleCount, femaleCount, 1, femaleParts);
+
+  return { anchors, colors };
+}
+
+function resolveCoupleAnchor(anchor, mix, time) {
+  const side = anchor.side;
+  const appearMix = smoothstep(Math.min(1, mix / 0.18));
+  const runMix = smoothstep(Math.max(0, Math.min(1, (mix - 0.18) / 0.48)));
+  const hugMix = smoothstep(Math.max(0, Math.min(1, (mix - 0.66) / 0.2)));
+  const kissMix = smoothstep(Math.max(0, (mix - 0.86) / 0.14));
+  const farX = side < 0 ? -31 : 31;
+  const runX = side < 0 ? -8.2 : 8.2;
+  const hugX = side < 0 ? -4.0 : 4.0;
+  let centerX = THREE.MathUtils.lerp(farX, runX, runMix);
+  centerX = THREE.MathUtils.lerp(centerX, hugX, hugMix);
+
+  let x = anchor.local.x + centerX;
+  let y = anchor.local.y;
+  let z = anchor.local.z;
+
+  const appearLift = (1 - appearMix) * 6.5;
+  x += side * (1 - appearMix) * 3.4;
+  y -= appearLift;
+  z -= (1 - appearMix) * 1.8;
+
+  const stride = Math.sin(runMix * Math.PI * 9 + anchor.phase);
+  if (anchor.part.indexOf('leg') === 0) {
+    x += stride * 0.62 * (1 - hugMix);
+    y += Math.abs(stride) * 0.85 * (1 - hugMix);
+  } else {
+    y += stride * 0.12 * (1 - hugMix);
+  }
+
+  if (anchor.part === 'arm_inner') {
+    x += -side * (1.0 * runMix + 2.1 * hugMix + 0.7 * kissMix);
+    y += 0.2 * runMix + 1.35 * hugMix + 0.45 * kissMix;
+  } else if (anchor.part === 'arm_outer') {
+    x += side * 0.45 * runMix - side * 0.4 * hugMix;
+    y -= 0.25 * hugMix;
+  }
+
+  if (anchor.part === 'torso' || anchor.part === 'upper' || anchor.part === 'dress' || anchor.part === 'hips' || anchor.part === 'shoulder') {
+    x += -side * (0.55 * hugMix + 0.9 * kissMix);
+  }
+
+  if (anchor.part === 'head' || anchor.part === 'hair') {
+    x += -side * (0.3 * hugMix + 1.65 * kissMix);
+    y -= 0.2 * hugMix + 0.45 * kissMix;
+    z += 0.18 * hugMix + 0.55 * kissMix;
+  }
+
+  if (anchor.part === 'hair') {
+    x += -side * (0.18 * hugMix + 0.28 * kissMix);
+  }
+
+  if (anchor.part === 'dress') {
+    x += Math.sin(time * 2.6 + anchor.phase) * 0.22 * (1 - hugMix * 0.9);
+  }
+
+  if (anchor.part === 'head' && side < 0) {
+    x += 0.18 * kissMix;
+  }
+  if (anchor.part === 'head' && side > 0) {
+    x -= 0.18 * kissMix;
+  }
+
+  return new THREE.Vector3(x, y, z);
+}
+
+function startCoupleMorph() {
+  if (coupleMorphActive) return;
+  const res = generateCoupleTargets(CONFIG.heartParticles);
+  coupleAnchors = res.anchors;
+  coupleColorTargets = res.colors;
+  coupleMorphActive = true;
+  coupleMorphProgress = 0;
+  coupleDoneDispatched = false;
+  coupleBurstTriggered = false;
+}
+
 function ensureFlames(candleTops) {
   if (flameMesh) return;
 
@@ -2010,6 +2278,11 @@ function startCakeMorph() {
   morphActive = true;
   morphProgress = 0;
   cakeDoneDispatched = false;
+  coupleStartScheduled = false;
+  coupleMorphActive = false;
+  coupleMorphProgress = 0;
+  coupleDoneDispatched = false;
+  coupleBurstTriggered = false;
   ensureFlames(cakeCandleTops);
   ensureMidBirthdayText();
 }
@@ -2024,7 +2297,7 @@ const WISHES_DELAY_AFTER_CAKE_MS = 5000; // cake sits for 5s first
 function resolveWishesApiUrl() {
   const localHosts = new Set(['localhost', '127.0.0.1', '0.0.0.0']);
   const isLocal = (location.protocol === 'file:') || localHosts.has(location.hostname);
-  if (isLocal) return 'https://lananh.thuyluc.shop/api/wishes';
+  if (isLocal) return 'https://lienlien.cgnn.shop/api/wishes';
   return '/api/wishes';
 }
 
@@ -2813,7 +3086,7 @@ async function startWishesSequence() {
   startLanternFeed();
 }
 
-window.addEventListener('cake:done', () => {
+window.addEventListener('couple:done', () => {
   if (wishesScheduled || finalTriggered) return;
   wishesScheduled = true;
 
@@ -2823,7 +3096,7 @@ window.addEventListener('cake:done', () => {
     startWishesSequence().catch((e) => {
       console.warn('startWishesSequence failed', e);
     });
-  }, WISHES_DELAY_AFTER_CAKE_MS);
+  }, 1100);
   wishesTimeouts.push(t);
 });
 
@@ -3723,6 +3996,15 @@ function animate() {
     if (!cakeDoneDispatched && morphProgress >= 1) {
       cakeDoneDispatched = true;
       window.dispatchEvent(new Event('cake:done'));
+      if (!coupleStartScheduled) {
+        coupleStartScheduled = true;
+        const t = window.setTimeout(() => {
+          if (!document.body.classList.contains('experience-on')) return;
+          if (document.body.classList.contains('wishes-on')) return;
+          startCoupleMorph();
+        }, COUPLE_START_DELAY_MS);
+        wishesTimeouts.push(t);
+      }
     }
 
     // Blend particle colors toward cake palette
@@ -3738,16 +4020,59 @@ function animate() {
     }
   }
 
+  if (coupleMorphActive && coupleAnchors) {
+    coupleMorphProgress = Math.min(1, coupleMorphProgress + dt / COUPLE_MORPH_DURATION_SEC);
+    const tcol = smoothstep(coupleMorphProgress);
+    for (let i = 0; i < CONFIG.heartParticles; i++) {
+      const ci = i * 3;
+      heartColors[ci] += (coupleColorTargets[ci] - heartColors[ci]) * (0.08 + tcol * 0.14);
+      heartColors[ci + 1] += (coupleColorTargets[ci + 1] - heartColors[ci + 1]) * (0.08 + tcol * 0.14);
+      heartColors[ci + 2] += (coupleColorTargets[ci + 2] - heartColors[ci + 2]) * (0.08 + tcol * 0.14);
+    }
+    heartGeo.attributes.color.needsUpdate = true;
+
+    if (!coupleBurstTriggered && coupleMorphProgress >= 0.82) {
+      coupleBurstTriggered = true;
+      spawnFireworkNearHeart(1.1);
+      setTimeout(() => {
+        if (!document.body.classList.contains('wishes-on')) spawnFireworkNearHeart(0.9);
+      }, 260);
+    }
+
+    if (!coupleDoneDispatched && coupleMorphProgress >= 1) {
+      coupleDoneDispatched = true;
+      const t = window.setTimeout(() => {
+        window.dispatchEvent(new Event('couple:done'));
+      }, COUPLE_HOLD_AFTER_MORPH_MS);
+      wishesTimeouts.push(t);
+    }
+  }
+
   // Animate heart particles (or morph targets)
   const hPos = heartGeo.attributes.position.array;
   const tm = morphActive && cakeTargets ? smoothstep(morphProgress) : 0;
+  const cm = coupleMorphActive && coupleAnchors ? smoothstep(coupleMorphProgress) : 0;
   for (let i = 0; i < CONFIG.heartParticles; i++) {
     const idx = i * 3;
     const speed = heartSpeeds[i];
 
     // Dynamic target: interpolate from heart -> cake
     let tx, ty, tz;
-    if (morphActive && cakeTargets) {
+    if (coupleMorphActive && coupleAnchors) {
+      const b = cakeTargets ? cakeTargets[i] : HEART_POINTS[i];
+      const c = resolveCoupleAnchor(coupleAnchors[i], cm, time);
+      const launchMix = smoothstep(Math.min(1, cm / 0.24));
+      const launchX = coupleAnchors[i].side < 0 ? -26 : 26;
+      const launchY = c.y + 1.5;
+      const launchZ = c.z;
+      const sx = b.x + (launchX - b.x) * launchMix;
+      const sy = b.y + (launchY - b.y) * launchMix;
+      const sz = b.z + (launchZ - b.z) * launchMix;
+      const runToBody = smoothstep(Math.max(0, (cm - 0.24) / 0.76));
+      tx = sx + (c.x - sx) * runToBody;
+      ty = sy + (c.y - sy) * runToBody;
+      tz = sz + (c.z - sz) * runToBody;
+    } else if (morphActive && cakeTargets) {
       const a = HEART_POINTS[i];
       const b = cakeTargets[i];
       tx = a.x + (b.x - a.x) * tm;
@@ -3793,11 +4118,11 @@ function animate() {
   
   // Pulse/rotation: reduce once it becomes a cake
   const pulse = 1 + Math.sin(time * 2) * 0.02;
-  const cakeMix = morphActive ? tm : 0;
+  const cakeMix = coupleMorphActive ? 1 : (morphActive ? tm : 0);
   const pulseMix = 1 - cakeMix * 0.85;
   heartMesh.scale.set(1 + (pulse - 1) * pulseMix, 1 + (pulse - 1) * pulseMix, 1 + (pulse - 1) * pulseMix);
-  heartMesh.rotation.y = Math.sin(time * 0.3) * 0.1 * (1 - cakeMix * 0.9);
-  heartMesh.rotation.x = Math.sin(time * 0.25) * 0.05 * (1 - cakeMix * 0.9);
+  heartMesh.rotation.y = Math.sin(time * 0.3) * 0.1 * (1 - cakeMix * 0.95);
+  heartMesh.rotation.x = Math.sin(time * 0.25) * 0.05 * (1 - cakeMix * 0.95);
   
   // Ring xoay
   ringMesh.rotation.y += 0.01;
@@ -3822,14 +4147,16 @@ function animate() {
 
   // Mid birthday text (between cake and ring)
   if (midTextSprite) {
-    const showText = morphActive ? smoothstep((morphProgress - 0.25) / 0.45) : 0;
-    midTextSprite.material.opacity = 0.92 * showText;
+    const showCakeText = morphActive ? smoothstep((morphProgress - 0.25) / 0.45) : 0;
+    const fadeForCouple = coupleMorphActive ? (1 - cm) : 1;
+    midTextSprite.material.opacity = 0.92 * showCakeText * fadeForCouple;
     midTextSprite.position.y = -14 + Math.sin(time * 1.6) * 0.35;
   }
 
   // Candle flames (appear near end of morph)
   if (flameMesh && flameBase && flamePhase) {
-    const showFlame = morphActive ? smoothstep((morphProgress - 0.55) / 0.45) : 0;
+    const cakeFlame = morphActive ? smoothstep((morphProgress - 0.55) / 0.45) : 0;
+    const showFlame = coupleMorphActive ? cakeFlame * (1 - cm) : cakeFlame;
     const arr = flameMesh.geometry.attributes.position.array;
     for (let i = 0; i < flamePhase.length; i++) {
       const idx = i * 3;
@@ -3886,11 +4213,15 @@ function animate() {
   
   // Image pulse theo tim
   if (window.imageSprite) {
+    const coupleFade = coupleMorphActive ? (1 - cm) : 1;
     window.imageSprite.scale.set(
       CONFIG.imageSize * pulse,
       CONFIG.imageSize * pulse,
       1
     );
+    if (window.imageMat) {
+      window.imageMat.opacity = Math.min(imageOpacity, 1) * coupleFade;
+    }
   }
   
   renderer.render(scene, camera);
