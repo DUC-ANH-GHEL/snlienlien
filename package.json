@@ -1,0 +1,11 @@
+{
+  "name": "lananhheartfly",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "dev": "node -e \"console.log('This repo is primarily static. Deploy /api as serverless functions (e.g., Vercel) and set DATABASE_URL env var.')\""
+  },
+  "dependencies": {
+    "postgres": "^3.4.5"
+  }
+}

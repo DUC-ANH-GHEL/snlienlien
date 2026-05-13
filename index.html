@@ -1,0 +1,3895 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Thiệp chúc mừng sinh nhật Liên Liên</title>
+
+<meta name="description" content="Thiệp chúc mừng sinh nhật Liên Liên — mở thiệp để xem bất ngờ và đến tham dự cùng mình nhé." />
+
+<!-- Link preview (Open Graph / Facebook / Zalo / Messenger, etc.) -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Thiệp chúc mừng sinh nhật Liên Liên" />
+<meta property="og:description" content="Mở thiệp để xem bất ngờ và đến tham dự cùng mình nhé." />
+<meta property="og:image" content="thiep.jpeg" />
+<meta property="og:image:alt" content="Thiệp chúc mừng sinh nhật Liên Liên" />
+
+<!-- Link preview (Twitter/X) -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Thiệp chúc mừng sinh nhật Liên Liên" />
+<meta name="twitter:description" content="Mở thiệp để xem bất ngờ và nghe nhạc." />
+<meta name="twitter:image" content="thiep.jpeg" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    overflow: hidden;
+    background: #000;
+    font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  }
+
+  :root {
+    --paper: #fbfaf7;
+    --paper-2: #f2efe9;
+    --ink: rgba(25, 18, 20, 0.84);
+    --muted: rgba(25, 18, 20, 0.62);
+    --line: rgba(60, 45, 40, 0.18);
+    --shadow: rgba(0, 0, 0, 0.26);
+    --wood1: #d6cdc4;
+    --wood2: #cbbfb4;
+  }
+
+  /* Subtle cinematic post overlay (vignette + grain) */
+  #fxOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0.65;
+    mix-blend-mode: overlay;
+    background:
+      radial-gradient(900px 520px at 50% 45%, rgba(255,255,255,0.06), rgba(255,255,255,0) 60%),
+      radial-gradient(900px 650px at 50% 50%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.25) 62%, rgba(0,0,0,0.62) 100%),
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0 1px, rgba(255,255,255,0.0) 1px 3px);
+    filter: saturate(118%) contrast(105%);
+  }
+
+  /* Keep the heart/3D scene crisp (reduce overlay while running the experience) */
+  body.experience-on #fxOverlay {
+    opacity: 0.16;
+  }
+
+  body.final-on #fxOverlay {
+    opacity: 0.35;
+  }
+
+  /* Hide the existing experience until the card is opened */
+  body:not(.experience-on) canvas,
+  body:not(.experience-on) #text {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  canvas,
+  #text {
+    transition: opacity 600ms ease;
+  }
+
+  /* Birthday card overlay */
+  .card-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+      radial-gradient(1400px 900px at 50% 35%, rgba(0,0,0,0.10), rgba(0,0,0,0.45)),
+      radial-gradient(900px 520px at 50% 45%, rgba(255,255,255,0.10), rgba(255,255,255,0) 60%),
+      repeating-linear-gradient(90deg,
+        rgba(255,255,255,0.06) 0 2px,
+        rgba(0,0,0,0.0) 2px 14px,
+        rgba(0,0,0,0.03) 14px 16px),
+      linear-gradient(180deg, var(--wood1), var(--wood2));
+    backdrop-filter: none;
+    -webkit-tap-highlight-color: transparent;
+    isolation: isolate;
+  }
+
+  /* Paper invitation style: no sparkles */
+  .card-sparkles { display: none; }
+
+  .card-overlay::before {
+    content: "";
+    position: absolute;
+    inset: -30%;
+    background: radial-gradient(900px 600px at 50% 20%, rgba(255,255,255,0.12), rgba(255,255,255,0) 70%);
+    filter: blur(45px);
+    opacity: 0.22;
+    animation: none;
+    z-index: -2;
+  }
+
+  .card-overlay::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(2px 2px at 0 0, rgba(255,255,255,0.08) 48%, rgba(255,255,255,0) 52%) 0 0 / 220px 220px;
+    opacity: 0.18;
+    mix-blend-mode: normal;
+    animation: none;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .card-overlay.hide {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 550ms ease;
+  }
+
+  .card {
+    width: min(92vw, 740px);
+    height: min(72vh, 420px);
+    position: relative;
+    perspective: 1200px;
+    transform: translateZ(0);
+  }
+
+  .card-overlay:not(.open) .card {
+    animation: card-breathe 3.8s ease-in-out infinite;
+  }
+
+  @keyframes card-breathe {
+    0%, 100% { transform: translateZ(0) scale(1); }
+    50% { transform: translateZ(0) scale(1.008); }
+  }
+
+  .card-base {
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    z-index: 2;
+    background:
+      radial-gradient(1px 1px at 12% 18%, rgba(0,0,0,0.030) 48%, rgba(0,0,0,0) 52%) 0 0 / 26px 26px,
+      radial-gradient(1px 1px at 72% 62%, rgba(0,0,0,0.024) 48%, rgba(0,0,0,0) 52%) 0 0 / 32px 32px,
+      linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.94)),
+      linear-gradient(180deg, var(--paper), var(--paper-2));
+    border: 1px solid var(--line);
+    box-shadow:
+      0 18px 50px rgba(0, 0, 0, 0.38),
+      0 2px 0 rgba(255,255,255,0.35) inset;
+    will-change: transform, opacity;
+    transition:
+      transform 1700ms cubic-bezier(0.16, 1, 0.18, 1),
+      opacity 220ms ease;
+  }
+
+  /* Inner sheet slides out from the pocket */
+  .card-overlay:not(.open) .card-base {
+    opacity: 0;
+    transform: translateY(0);
+  }
+
+  .card-overlay.open .card-base {
+    opacity: 1;
+    transform: translateY(calc(-100% - 34px));
+  }
+
+  /* Stage 2: after it pops out, it drops back to align with the card */
+  .card-overlay.sheet-drop .card-base {
+    transform: translateY(0);
+  }
+
+  .card-overlay.sheet-out .card-base {
+    z-index: 7;
+    box-shadow:
+      0 28px 72px rgba(0,0,0,0.34),
+      0 2px 0 rgba(255,255,255,0.35) inset;
+  }
+
+  .card-base::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    transform: translateX(-1px);
+    background: linear-gradient(180deg, rgba(0,0,0,0.0), rgba(0,0,0,0.25), rgba(0,0,0,0.0));
+    opacity: 0.26;
+    pointer-events: none;
+  }
+
+  .card-base::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(520px 300px at 18% 18%, rgba(255, 190, 205, 0.18), rgba(255, 190, 205, 0) 65%),
+      radial-gradient(560px 340px at 85% 80%, rgba(185, 210, 190, 0.16), rgba(185, 210, 190, 0) 65%);
+    pointer-events: none;
+  }
+
+  .card-base-content {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 22px;
+    text-align: center;
+    color: var(--ink);
+    transition: opacity 650ms ease, transform 650ms ease;
+  }
+
+  .card-overlay:not(.open) .card-base-content {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  .card-overlay.open .card-base-content {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 520ms;
+  }
+
+  .card-inside {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    align-items: center;
+  }
+
+  .inside-left,
+  .inside-right {
+    height: 100%;
+    display: grid;
+    place-items: center;
+    padding: 22px;
+  }
+
+  .inside-left { color: var(--ink); }
+  .inside-right { color: var(--ink); }
+
+  .card-base-title {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: clamp(18px, 3.6vw, 22px);
+    letter-spacing: 0.2px;
+    opacity: 0.92;
+  }
+
+  .card-base-sub {
+    margin-top: 10px;
+    font-size: clamp(12px, 2.8vw, 14px);
+    opacity: 0.75;
+  }
+
+  /* Tap feedback (especially for mobile) */
+  .card-overlay.pressed .card {
+    transform: translateZ(0) scale(0.992);
+  }
+
+  /* Click-to-open: the inner sheet slides out slowly */
+  .card-base {
+    z-index: 2;
+    will-change: transform, opacity;
+    transition:
+      transform 1650ms cubic-bezier(0.16, 1, 0.18, 1),
+      opacity 520ms ease;
+  }
+
+  .card-cover {
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    transform-style: preserve-3d;
+    transform-origin: 50% 100%;
+    z-index: 5;
+    transition: none;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+    will-change: transform;
+    opacity: 1;
+    transition: opacity 520ms ease;
+  }
+
+  /* Pocket lip to hide the sheet edge while inside */
+  .card-cover::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    pointer-events: none;
+    background:
+      linear-gradient(180deg,
+        rgba(0,0,0,0.00) 0%,
+        rgba(0,0,0,0.00) 58%,
+        rgba(0,0,0,0.16) 76%,
+        rgba(0,0,0,0.32) 100%);
+    opacity: 0.55;
+    mix-blend-mode: multiply;
+  }
+
+  /* Paper edge + hinge shading to feel like real card opening */
+  .card-cover::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    pointer-events: none;
+    background:
+      linear-gradient(90deg,
+        rgba(0,0,0,0.28) 0%,
+        rgba(0,0,0,0.00) 18%,
+        rgba(0,0,0,0.00) 72%,
+        rgba(0,0,0,0.22) 100%);
+    opacity: 0.10;
+    mix-blend-mode: multiply;
+    transform: translateZ(1px);
+  }
+
+  .card-overlay.open .card-cover { transform: none; }
+  .card-overlay.open .card-cover::after { opacity: 0.22; }
+
+  /* Fade the pocket away while the sheet drops onto it */
+  .card-overlay.sheet-drop .card-cover {
+    opacity: 0;
+    transition-delay: 120ms;
+  }
+
+  /* Once the sheet is fully out, it covers the card */
+  .card-overlay.sheet-out .card-cover {
+    opacity: 0;
+  }
+
+  .card-cover-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    --floral: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='240'%20height='240'%20viewBox='0%200%20240%20240'%3E%3Cdefs%3E%3CradialGradient%20id='g'%20cx='50%25'%20cy='50%25'%20r='60%25'%3E%3Cstop%20offset='0'%20stop-color='%23ffb3c7'%20stop-opacity='0.85'/%3E%3Cstop%20offset='1'%20stop-color='%23c39bff'%20stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cg%20opacity='0.95'%3E%3Ccircle%20cx='62'%20cy='72'%20r='18'%20fill='%23d45b7a'%20opacity='0.42'/%3E%3Ccircle%20cx='86'%20cy='56'%20r='22'%20fill='%23f08aa6'%20opacity='0.42'/%3E%3Ccircle%20cx='102'%20cy='82'%20r='20'%20fill='%23b56bd6'%20opacity='0.25'/%3E%3Ccircle%20cx='74'%20cy='98'%20r='28'%20fill='url(%23g)'/%3E%3Cpath%20d='M132%20122c22-26%2050-30%2068-18'%20stroke='%2383a871'%20stroke-width='4'%20fill='none'%20opacity='0.55'/%3E%3Cpath%20d='M122%20154c28-18%2058-18%2084-6'%20stroke='%2383a871'%20stroke-width='4'%20fill='none'%20opacity='0.42'/%3E%3Cellipse%20cx='162'%20cy='118'%20rx='13'%20ry='7'%20fill='%2396c37a'%20opacity='0.48'%20transform='rotate(-22%20162%20118)'/%3E%3Cellipse%20cx='184'%20cy='146'%20rx='15'%20ry='8'%20fill='%2396c37a'%20opacity='0.48'%20transform='rotate(18%20184%20146)'/%3E%3C/g%3E%3C/svg%3E");
+    background:
+      radial-gradient(1px 1px at 12% 18%, rgba(0,0,0,0.028) 48%, rgba(0,0,0,0) 52%) 0 0 / 26px 26px,
+      radial-gradient(1px 1px at 72% 62%, rgba(0,0,0,0.022) 48%, rgba(0,0,0,0) 52%) 0 0 / 32px 32px,
+      var(--floral),
+      var(--floral),
+      linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.94)),
+      linear-gradient(180deg, var(--paper), var(--paper-2));
+    background-repeat: repeat, repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+    background-size: auto, auto, 240px 240px, 240px 240px, auto, auto;
+    background-position: 0 0, 0 0, -28px -28px, calc(100% + 28px) calc(100% + 28px), 0 0, 0 0;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.55),
+      inset 0 -60px 120px rgba(0,0,0,0.06);
+  }
+
+  .card-cover-face::before {
+    content: "";
+    position: absolute;
+    inset: -40px;
+    background:
+      radial-gradient(700px 420px at 50% 30%, rgba(0,0,0,0.03), rgba(0,0,0,0) 70%),
+      linear-gradient(120deg, rgba(255,255,255,0.0), rgba(255,255,255,0.14), rgba(255,255,255,0.0));
+    opacity: 0.55;
+    transform: translateX(-20%);
+    animation: shimmer-sweep 4.8s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  .card-cover-face::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(900px 520px at 50% 0%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 65%),
+      linear-gradient(180deg, rgba(0,0,0,0.0), rgba(0,0,0,0.05));
+    mix-blend-mode: normal;
+    opacity: 0.45;
+    pointer-events: none;
+  }
+
+  .card-cover-front {
+    display: grid;
+    place-items: center;
+    padding: 22px;
+    text-align: center;
+  }
+
+  .cover-content {
+    width: min(560px, 90%);
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
+  .cover-frame {
+    width: 100%;
+    max-width: 540px;
+    margin: 0 auto;
+    padding: clamp(18px, 3.8vw, 28px) clamp(16px, 3.6vw, 26px);
+    border-radius: 999px;
+    background: rgba(255,255,255,0.78);
+    border: 2px solid rgba(60, 45, 40, 0.22);
+    box-shadow:
+      0 18px 38px rgba(0,0,0,0.18),
+      inset 0 0 0 1px rgba(255,255,255,0.55);
+    backdrop-filter: blur(4px);
+  }
+
+  .frame-kicker {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: clamp(12px, 2.8vw, 14px);
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .frame-divider {
+    width: 64px;
+    height: 1px;
+    margin: 12px auto 12px;
+    background: rgba(60, 45, 40, 0.22);
+    opacity: 0.9;
+  }
+
+  .cover-content .invite-title {
+    line-height: 1.15;
+  }
+
+  .cover-content .invite-name {
+    line-height: 1.18;
+  }
+
+  .cover-badge {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.20);
+    background: rgba(0,0,0,0.14);
+    box-shadow:
+      0 14px 34px rgba(0,0,0,0.28),
+      inset 0 0 0 1px rgba(255,255,255,0.06);
+    backdrop-filter: blur(10px);
+  }
+
+  .badge-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(255,255,255,0.0)),
+                linear-gradient(135deg, rgba(255,150,205,0.9), rgba(140,120,255,0.9));
+    box-shadow: 0 0 18px rgba(255,140,210,0.35);
+  }
+
+  .invite-title {
+    margin-top: 8px;
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: clamp(18px, 4.2vw, 26px);
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    color: rgba(25, 18, 20, 0.78);
+    text-shadow: none;
+  }
+
+  .invite-name {
+    margin-top: 10px;
+    padding-top: 6px;
+    display: inline-block;
+    line-height: 1.18;
+    font-family: "Great Vibes", cursive;
+    font-size: clamp(42px, 9vw, 86px);
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    background: linear-gradient(90deg, rgba(60, 40, 50, 0.88), rgba(130, 80, 120, 0.80), rgba(60, 40, 50, 0.86));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 16px 34px rgba(0,0,0,0.18);
+  }
+
+  .invite-hint {
+    margin-top: 16px;
+    font-size: clamp(12px, 3.2vw, 14px);
+    color: var(--muted);
+    opacity: 1;
+  }
+
+  .invite-hint strong {
+    font-weight: 700;
+    color: rgba(25, 18, 20, 0.72);
+  }
+
+  .invite-hint kbd {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 0.95em;
+    padding: 2px 6px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(0, 0, 0, 0.22);
+  }
+
+  .card-overlay.open .card-cover { transform: none; }
+  .card-overlay.open .card-cover::after { opacity: 0.22; }
+
+  .card-overlay:focus {
+    outline: none;
+  }
+
+  .card-overlay[tabindex="0"] {
+    cursor: pointer;
+  }
+
+  @keyframes aurora-rotate {
+    0% { transform: rotate(0deg) scale(1.02); }
+    100% { transform: rotate(360deg) scale(1.02); }
+  }
+
+  @keyframes twinkle-drift {
+    0% { transform: translate3d(0, 0, 0); opacity: 0.45; }
+    50% { transform: translate3d(0, -10px, 0); opacity: 0.62; }
+    100% { transform: translate3d(0, 0, 0); opacity: 0.45; }
+  }
+
+  @keyframes shimmer-sweep {
+    0% { transform: translateX(-25%); opacity: 0.45; }
+    50% { transform: translateX(25%); opacity: 0.85; }
+    100% { transform: translateX(-25%); opacity: 0.45; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card-overlay::before,
+    .card-overlay::after,
+    .card-cover-face::before,
+    .card-overlay:not(.open) .card,
+    #finalTitle {
+      animation: none !important;
+    }
+    .card-cover,
+    .card-base,
+    .card-base-content,
+    #hudMessage,
+    #finalOverlay,
+    #finalMessageWrap,
+    canvas,
+    #text {
+      transition-duration: 1ms !important;
+    }
+  }
+
+  #text {
+    position: absolute;
+    bottom: 8%;
+    width: 100%;
+    text-align: center;
+    font-size: clamp(18px, 4vw, 28px);
+    letter-spacing: 3px;
+    color: #ff7aa2;
+    text-shadow:
+      0 0 10px rgba(255,120,160,0.9),
+      0 0 30px rgba(255,80,140,0.7),
+      0 0 50px rgba(255,50,120,0.5);
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* HUD messages (extra activity) */
+  #hud {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 20;
+    display: grid;
+    place-items: start center;
+    padding-top: clamp(18px, 4vh, 40px);
+  }
+
+  #hudMessage {
+    width: min(780px, calc(100vw - 28px));
+    padding: 14px 16px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: linear-gradient(180deg, rgba(10, 6, 18, 0.46), rgba(10, 6, 18, 0.24));
+    box-shadow: 0 18px 44px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(255,255,255,0.06);
+    backdrop-filter: blur(10px) saturate(135%);
+    color: rgba(255,255,255,0.94);
+    text-align: center;
+    letter-spacing: 0.4px;
+    transform: translateY(-8px);
+    opacity: 0;
+    transition: opacity 520ms ease, transform 520ms ease;
+  }
+
+  #hudMessage strong {
+    font-weight: 800;
+  }
+
+  body.experience-on #hudMessage.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Wishes overlay (Floating Lanterns) */
+  #wishesOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 25;
+    pointer-events: none;
+    opacity: 1;
+  }
+
+  #lanternLayer {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 700ms ease;
+  }
+
+  body.wishes-on #lanternLayer {
+    opacity: 1;
+  }
+
+  /* Wrapper carries the flight animation so the lantern can keep overflow:hidden (shape unchanged) */
+  .lanternWrap {
+    position: absolute;
+    bottom: calc(-34vh - var(--y0, 0px));
+    width: var(--w, clamp(132px, 30vw, 190px));
+    pointer-events: auto;
+    will-change: transform, opacity;
+    transform: translate3d(0, 0, 0);
+    transform-origin: 50% 18%;
+    animation:
+      lantern-float var(--dur, 38s) linear forwards,
+      lantern-sway var(--sway, 3.6s) ease-in-out infinite;
+  }
+
+  .lantern {
+    position: relative;
+    width: 100%;
+    min-height: 160px;
+    padding: 34px 16px 42px;
+    border-radius: 120px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 235, 230, 0.40);
+    background:
+      /* 3D rim + specular highlight */
+      radial-gradient(140px 110px at 35% 26%, rgba(255,255,255,0.38), rgba(255,255,255,0.0) 66%),
+      radial-gradient(120px 96px at 50% 52%, rgba(255, 248, 230, 0.92), rgba(255, 246, 220, 0.0) 74%),
+      radial-gradient(130px 78px at 50% 92%, rgba(255, 195, 150, 0.34), rgba(255, 175, 130, 0.0) 75%),
+      /* subtle paper ribs */
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.10) 0 4px, rgba(0,0,0,0) 4px 18px),
+      /* side shading for volume */
+      linear-gradient(90deg, rgba(0,0,0,0.16), rgba(0,0,0,0.0) 22%, rgba(0,0,0,0.0) 78%, rgba(0,0,0,0.18)),
+      /* main body */
+      linear-gradient(180deg, rgba(255, 62, 110, 0.96), rgba(120, 10, 70, 0.82));
+    box-shadow:
+      0 34px 86px rgba(0,0,0,0.52),
+      0 0 58px rgba(255, 170, 120, 0.26),
+      0 0 22px rgba(255, 120, 170, 0.18),
+      inset 0 16px 34px rgba(255, 240, 220, 0.16),
+      inset 0 -26px 40px rgba(0, 0, 0, 0.22);
+    filter: drop-shadow(0 0 14px rgba(255, 200, 160, 0.22));
+    color: rgba(255,255,255,0.98);
+    letter-spacing: 0.2px;
+    text-shadow: 0 3px 14px rgba(0,0,0,0.55);
+    pointer-events: auto;
+    will-change: auto;
+  }
+
+  .lantern .lantern-inner {
+    position: relative;
+    z-index: 2;
+    padding: 10px 10px 12px;
+    border-radius: 18px;
+    background:
+      radial-gradient(140px 110px at 50% 45%, rgba(255, 220, 190, 0.16), rgba(255, 220, 190, 0.0) 62%),
+      linear-gradient(180deg, rgba(0,0,0,0.56), rgba(0,0,0,0.34));
+    border: 1px solid rgba(255,255,255,0.16);
+    box-shadow:
+      0 10px 22px rgba(0,0,0,0.22),
+      inset 0 0 0 1px rgba(0,0,0,0.15);
+  }
+
+  .lantern .lantern-inner::after {
+    /* glossy streak (adds 3D feel without extra DOM) */
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border-radius: 16px;
+    background: linear-gradient(115deg,
+      rgba(255,255,255,0.18) 0%,
+      rgba(255,255,255,0.06) 14%,
+      rgba(255,255,255,0.0) 36%,
+      rgba(255,255,255,0.0) 100%);
+    opacity: 0.55;
+    pointer-events: none;
+    mix-blend-mode: screen;
+  }
+
+  .lantern .lantern-inner::before {
+    /* inner candle glow */
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 52%;
+    width: 120px;
+    height: 120px;
+    transform: translate(-50%, -50%);
+    border-radius: 999px;
+    background: radial-gradient(circle at 50% 55%, rgba(255, 240, 210, 0.65), rgba(255, 180, 120, 0.0) 70%);
+    filter: blur(0.2px);
+    opacity: 0.85;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .lantern::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: -28px;
+    width: 128px;
+    height: 44px;
+    transform: translateX(-50%);
+    border-radius: 999px;
+    border: 1px solid rgba(255, 230, 220, 0.26);
+    background:
+      radial-gradient(16px 12px at 50% 10px, rgba(255, 230, 220, 0.55) 55%, rgba(0,0,0,0.0) 57%),
+      radial-gradient(14px 10px at 50% 9px, rgba(0,0,0,0.0) 52%, rgba(255, 230, 220, 0.40) 54%, rgba(0,0,0,0.0) 58%),
+      linear-gradient(180deg, rgba(25, 12, 38, 0.78), rgba(10, 6, 18, 0.56));
+    box-shadow: 0 14px 28px rgba(0,0,0,0.36);
+    opacity: 0.96;
+  }
+
+  .lantern::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -56px;
+    width: 120px;
+    height: 84px;
+    transform: translateX(-50%);
+    border-radius: 999px;
+    background:
+      /* bottom cap */
+      radial-gradient(12px 10px at 50% 18px, rgba(255, 230, 220, 0.42), rgba(0,0,0,0.0) 70%),
+      linear-gradient(180deg, rgba(18, 10, 28, 0.86) 0 34px, rgba(0,0,0,0.0) 34px 100%),
+      /* tassel threads */
+      repeating-linear-gradient(90deg, rgba(255, 150, 190, 0.78) 0 2px, rgba(255, 150, 190, 0.0) 2px 8px);
+    box-shadow: 0 18px 30px rgba(0,0,0,0.24);
+    opacity: 0.95;
+  }
+
+  .lantern-photoWrap {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    /* Anchor right at the lantern bottom so the rope starts there */
+    top: calc(100% - 2px);
+    width: min(190px, calc(100% - 18px));
+    height: 360px;
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  .lantern-rope {
+    position: absolute;
+    left: 50%;
+    /* Rope starts at the lantern bottom */
+    top: 0;
+    width: 2px;
+    height: 170px;
+    transform: translateX(-50%);
+    background: linear-gradient(180deg, rgba(255, 220, 210, 0.0), rgba(255, 220, 210, 0.62), rgba(255, 220, 210, 0.18));
+    box-shadow: 0 0 10px rgba(255, 190, 170, 0.28);
+    opacity: 0.9;
+  }
+
+  .lantern-photo {
+    position: absolute;
+    left: 50%;
+    top: 184px; /* rope(170) + gap(14) */
+    width: min(170px, calc(100% - 8px));
+    height: min(170px, calc(100% - 8px));
+    transform: translateX(-50%);
+    object-fit: cover;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.20);
+    box-shadow:
+      0 18px 44px rgba(0,0,0,0.55),
+      0 0 26px rgba(255, 170, 140, 0.20);
+    background: rgba(255,255,255,0.06);
+    pointer-events: auto;
+    cursor: zoom-in;
+  }
+
+  .lantern-name {
+    font-weight: 900;
+    font-size: 15px;
+    opacity: 1;
+    margin-bottom: 6px;
+    text-align: center;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.65);
+  }
+
+  .lantern-msg {
+    font-size: 15px;
+    line-height: 1.4;
+    opacity: 1;
+    overflow: visible;
+    display: block;
+    white-space: normal;
+    word-break: normal;
+    overflow-wrap: break-word;
+    text-align: center;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.70);
+  }
+
+  .lantern-hearts {
+    position: absolute;
+    right: 12px;
+    bottom: 10px;
+    z-index: 3;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.16);
+    background: rgba(0,0,0,0.28);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+    font-weight: 900;
+    font-size: 12px;
+    pointer-events: none;
+  }
+
+  .lantern-hearts .icon {
+    color: rgba(255, 120, 170, 0.95);
+    text-shadow: 0 8px 18px rgba(255, 120, 170, 0.22);
+  }
+
+  .likeBurst {
+    position: absolute;
+    z-index: 60;
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0;
+    pointer-events: none;
+    color: #ff2d55;
+    animation: likeBurst 900ms ease-out forwards;
+    filter: drop-shadow(0 12px 24px rgba(0,0,0,0.55));
+    font-size: 52px;
+    line-height: 1;
+  }
+
+  @keyframes likeBurst {
+    0%   { transform: translate(-50%, -50%) scale(0.7); opacity: 0; }
+    15%  { opacity: 1; }
+    60%  { transform: translate(-50%, calc(-50% - 28px)) scale(1.02); opacity: 1; }
+    100% { transform: translate(-50%, calc(-50% - 64px)) scale(1.1); opacity: 0; }
+  }
+
+  @keyframes lantern-float {
+    0%   { transform: translate3d(var(--x0, 0px), 0, 0) scale(0.98) rotate(-0.6deg); opacity: 0; }
+    7%   { opacity: 1; }
+    94%  { opacity: 1; }
+    100% { transform: translate3d(var(--x1, 0px), -125vh, 0) scale(1.02) rotate(0.8deg); opacity: 0; }
+  }
+
+  @keyframes lantern-sway {
+    0%   { filter: drop-shadow(0 0 10px rgba(255, 190, 140, 0.18)); }
+    50%  { filter: drop-shadow(0 0 14px rgba(255, 210, 170, 0.22)); }
+    100% { filter: drop-shadow(0 0 10px rgba(255, 190, 140, 0.18)); }
+  }
+
+  #wishFab {
+    position: fixed;
+    right: 14px;
+    bottom: 14px;
+    z-index: 26;
+    pointer-events: auto;
+    display: none;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: linear-gradient(135deg, rgba(255, 92, 140, 0.92), rgba(150, 120, 255, 0.82));
+    box-shadow:
+      0 18px 44px rgba(0,0,0,0.42),
+      0 0 36px rgba(255, 120, 170, 0.42),
+      0 0 22px rgba(170, 140, 255, 0.30),
+      inset 0 0 0 1px rgba(255,255,255,0.10);
+    backdrop-filter: blur(10px) saturate(140%);
+    color: rgba(255,255,255,0.96);
+    font-weight: 800;
+    letter-spacing: 0.2px;
+    transform: translateZ(0);
+    will-change: transform, filter;
+  }
+
+  body.experience-on:not(.wish-modal) #wishFab {
+    /* Always noticeable once the experience starts */
+    animation:
+      wishfab-pop 2.2s ease-in-out infinite,
+      wishfab-jiggle 7.5s ease-in-out infinite;
+  }
+
+  #wishFab::before {
+    content: "";
+    position: absolute;
+    inset: -10px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 170, 210, 0.34);
+    box-shadow: 0 0 0 0 rgba(255, 140, 200, 0.0);
+    animation: wishfab-ring 2.1s ease-out infinite;
+    pointer-events: none;
+  }
+
+  #wishFab::after {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.92);
+    box-shadow: 0 0 18px rgba(255,255,255,0.65), 0 0 34px rgba(255, 140, 200, 0.42);
+    opacity: 0.95;
+    animation: wishfab-dot 1.2s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  @keyframes wishfab-pop {
+    0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+    12% { transform: translateY(-4px) rotate(-1.4deg) scale(1.05); }
+    24% { transform: translateY(0px) rotate(1.3deg) scale(1.02); }
+    36% { transform: translateY(-2px) rotate(-0.8deg) scale(1.04); }
+    48% { transform: translateY(0px) rotate(0.8deg) scale(1.02); }
+  }
+
+  @keyframes wishfab-jiggle {
+    0%, 84%, 100% { transform: translateY(0) rotate(0deg) scale(1); filter: brightness(1); }
+    /* short attention burst */
+    86% { transform: translateY(-1px) rotate(-6deg) scale(1.06); filter: brightness(1.12); }
+    88% { transform: translateY(0px) rotate(6deg) scale(1.06); }
+    90% { transform: translateY(-1px) rotate(-5deg) scale(1.05); }
+    92% { transform: translateY(0px) rotate(5deg) scale(1.05); }
+    94% { transform: translateY(-1px) rotate(-3deg) scale(1.04); }
+    96% { transform: translateY(0px) rotate(3deg) scale(1.03); }
+  }
+
+  @keyframes wishfab-ring {
+    0% { transform: scale(0.92); opacity: 0.0; }
+    12% { opacity: 0.75; }
+    100% { transform: scale(1.18); opacity: 0.0; }
+  }
+
+  @keyframes wishfab-dot {
+    0%, 100% { transform: translateY(0); opacity: 0.85; }
+    50% { transform: translateY(-3px); opacity: 1; }
+  }
+
+  body.experience-on #wishFab {
+    display: inline-flex;
+  }
+
+  body.wish-modal #wishFab {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  #wishModal {
+    position: fixed;
+    inset: 0;
+    z-index: 27;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 220ms ease;
+    display: grid;
+    place-items: center;
+    padding: 18px;
+  }
+
+  body.wish-modal #wishModal {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Photo viewer modal (click lantern photo to open) */
+  #photoModal {
+    position: fixed;
+    inset: 0;
+    z-index: 29;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 180ms ease;
+    display: grid;
+    place-items: center;
+    padding: 18px;
+  }
+
+  body.photo-modal #photoModal {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  #photoModalBackdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.70);
+    backdrop-filter: blur(2px);
+  }
+
+  #photoModalCard {
+    position: relative;
+    width: min(92vw, 760px);
+    max-height: min(86vh, 860px);
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.16);
+    background: rgba(10, 10, 14, 0.72);
+    box-shadow: 0 28px 90px rgba(0,0,0,0.65);
+  }
+
+  #photoModalImg {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: min(86vh, 860px);
+    object-fit: contain;
+    background: rgba(0,0,0,0.28);
+  }
+
+  #photoModalClose {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 2;
+    border: 1px solid rgba(255,255,255,0.22);
+    background: rgba(0,0,0,0.38);
+    color: rgba(255,255,255,0.92);
+    border-radius: 999px;
+    padding: 8px 12px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  #wishModalBackdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+  }
+
+  #wishModalCard {
+    position: relative;
+    width: min(520px, calc(100vw - 28px));
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: linear-gradient(180deg, rgba(18, 10, 28, 0.92), rgba(18, 10, 28, 0.72));
+    box-shadow: 0 22px 70px rgba(0,0,0,0.52);
+    backdrop-filter: blur(10px) saturate(140%);
+    padding: 14px;
+    color: rgba(255,255,255,0.94);
+  }
+
+  #wishModalCard h3 {
+    font-size: 16px;
+    letter-spacing: 0.2px;
+    margin: 4px 0 10px;
+  }
+
+  .wishField {
+    display: grid;
+    gap: 6px;
+    margin: 10px 0;
+  }
+
+  .wishField label {
+    font-size: 12px;
+    opacity: 0.84;
+  }
+
+  .wishField input,
+  .wishField textarea {
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.16);
+    background: rgba(255,255,255,0.08);
+    padding: 10px 12px;
+    color: rgba(255,255,255,0.95);
+    outline: none;
+  }
+
+  .wishField textarea { min-height: 92px; resize: none; }
+
+  .wishHint {
+    font-size: 12px;
+    opacity: 0.72;
+    line-height: 1.35;
+  }
+
+  #wishImagePreview {
+    display: none;
+    margin-top: 6px;
+    width: 112px;
+    height: 112px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.14);
+    background: rgba(255,255,255,0.06);
+    box-shadow: 0 14px 34px rgba(0,0,0,0.35);
+    overflow: hidden;
+  }
+
+  #wishImagePreview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  #wishActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .wishBtn {
+    border: 1px solid rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.10);
+    color: rgba(255,255,255,0.95);
+    border-radius: 999px;
+    padding: 10px 14px;
+    font-weight: 800;
+  }
+
+  .wishBtn.primary {
+    background: linear-gradient(135deg, rgba(255, 120, 170, 0.86), rgba(150, 120, 255, 0.76));
+    border-color: rgba(255,255,255,0.10);
+  }
+
+  /* Cinematic ending overlay */
+  #finalOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 900ms ease;
+  }
+
+  body.final-on #finalOverlay {
+    opacity: 1;
+  }
+
+  #finalOverlay::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(520px 340px at 50% 52%, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.82) 100%),
+      linear-gradient(180deg, rgba(0,0,0,0.20), rgba(0,0,0,0.65));
+  }
+
+  #finalOverlay::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,0.10) 48%, rgba(255,255,255,0) 52%) 0 0 / 220px 220px,
+      radial-gradient(2px 2px at 78% 60%, rgba(255,255,255,0.08) 48%, rgba(255,255,255,0) 52%) 0 0 / 280px 280px;
+    opacity: 0.45;
+    mix-blend-mode: screen;
+    pointer-events: none;
+  }
+
+  #finalMessageWrap {
+    position: absolute;
+    left: 50%;
+    top: 78%;
+    width: min(860px, calc(100vw - 28px));
+    text-align: center;
+    padding: 14px 14px 16px;
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(10, 6, 18, 0.42), rgba(10, 6, 18, 0.20));
+    border: 1px solid rgba(255,255,255,0.14);
+    box-shadow: 0 22px 60px rgba(0,0,0,0.45), inset 0 0 0 1px rgba(255,255,255,0.05);
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.98);
+    transition: opacity 900ms ease, transform 900ms cubic-bezier(0.16, 1, 0.18, 1);
+  }
+
+  body.final-on #finalMessageWrap {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  #finalTitle {
+    font-family: "Great Vibes", cursive;
+    font-size: clamp(34px, 6vw, 58px);
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+    color: rgba(255,255,255,0.98);
+    text-shadow:
+      0 0 10px rgba(255,140,210,0.55),
+      0 0 24px rgba(160,120,255,0.40),
+      0 16px 40px rgba(0,0,0,0.45);
+    animation: neon-flicker 5.5s ease-in-out infinite;
+  }
+
+  #finalText {
+    font-size: clamp(14px, 2.8vw, 18px);
+    line-height: 1.5;
+    color: rgba(255,255,255,0.93);
+    text-shadow: 0 10px 26px rgba(0,0,0,0.55);
+  }
+
+  #finalText strong {
+    font-weight: 800;
+    color: rgba(255,255,255,0.98);
+  }
+
+  @keyframes neon-flicker {
+    0%, 100% { filter: brightness(1); opacity: 1; }
+    48% { filter: brightness(1.15); }
+    52% { filter: brightness(0.95); opacity: 0.92; }
+    56% { filter: brightness(1.2); opacity: 1; }
+  }
+  
+  canvas {
+    display: block;
+  }
+</style>
+</head>
+
+<body>
+<div id="fxOverlay" aria-hidden="true"></div>
+<div id="hud" aria-hidden="true"><div id="hudMessage"></div></div>
+<div id="wishesOverlay" aria-hidden="true">
+  <div id="lanternLayer" aria-hidden="true"></div>
+  <button id="wishFab" type="button" aria-label="Gửi lời chúc">💌 Gửi lời chúc</button>
+  <div id="wishModal" aria-hidden="true">
+    <div id="wishModalBackdrop"></div>
+    <div id="wishModalCard" role="dialog" aria-modal="true" aria-label="Gửi lời chúc">
+      <h3>Gửi lời chúc tới Liên Liên</h3>
+      <div class="wishField">
+        <label for="wishName">Tên (không bắt buộc)</label>
+        <input id="wishName" maxlength="40" placeholder="Ví dụ: Liên Liên" />
+      </div>
+      <div class="wishField">
+        <label for="wishMessage">Lời chúc</label>
+        <textarea id="wishMessage" maxlength="240" placeholder="Viết lời chúc của bạn..."></textarea>
+      </div>
+      <div class="wishField">
+        <label for="wishImage">Ảnh (không bắt buộc)</label>
+        <input id="wishImage" type="file" accept="image/*" />
+        <div id="wishImagePreview" aria-hidden="true"></div>
+        <div class="wishHint">Thêm một kỷ niệm nhỏ bằng ảnh — ảnh sẽ được gắn vào chiếc đèn lồng và bay cùng lời chúc của bạn.</div>
+      </div>
+      <div id="wishActions">
+        <button class="wishBtn" id="wishCancel" type="button">Đóng</button>
+        <button class="wishBtn primary" id="wishSend" type="button">Gửi</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="photoModal" aria-hidden="true">
+    <div id="photoModalBackdrop"></div>
+    <div id="photoModalCard" role="dialog" aria-modal="true" aria-label="Xem ảnh">
+      <button id="photoModalClose" type="button">Đóng</button>
+      <img id="photoModalImg" alt="Ảnh lời chúc" />
+    </div>
+  </div>
+</div>
+<div id="finalOverlay" aria-hidden="true">
+  <div id="finalMessageWrap">
+    <div id="finalTitle">Hẹn gặp mọi người</div>
+    <div id="finalText">Mời các bạn tới nhà mình lúc <strong>7h</strong> <strong>thứ 7</strong> tuần này để làm nồi lẩu nhé 🫕✨</div>
+  </div>
+</div>
+<div id="cardOverlay" class="card-overlay" role="button" aria-label="Mở thiệp chúc mừng sinh nhật" tabindex="0">
+  <div class="card" aria-hidden="false">
+    <div class="card-base" aria-hidden="true">
+      <div class="card-base-content">
+        <div class="card-inside">
+          <div class="inside-left">
+            <div>
+              <div class="card-base-title">Chúc mừng sinh nhật Liên Liên</div>
+              <div class="card-base-sub"> 27/01/2026 ✨</div>
+            </div>
+          </div>
+          <div class="inside-right">
+            <div>
+              <div class="card-base-title">Mời các bạn tới dự sinh nhật với mình nhé</div>
+              <div class="card-base-sub">Địa chỉ nhà mk nha: XM92+PWM, Tỉnh Lộ 516B, TT. Quán Lào, Yên Định, Thanh Hóa. 
+Quán tóc Hair salon lan anh nhé 🎶</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-cover" aria-hidden="true">
+      <div class="card-cover-face card-cover-front">
+        <div class="cover-content">
+          <div class="cover-frame">
+            <div class="frame-kicker">Thiệp chúc mừng sinh nhật</div>
+            <div class="frame-divider" aria-hidden="true"></div>
+            <div class="invite-title">Sinh nhật</div>
+            <div class="invite-name">Liên Liên</div>
+            <div class="invite-hint">Click / chạm để mở</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<audio id="bgMusic" src="music.mp3" preload="auto" loop playsinline></audio>
+
+<div id="text">🎂 Chúc mừng sinh nhật Liên Liên ❤️ Chúc Liên Liên luôn luôn rực rỡ rạng ngời ✨</div>
+
+<script>
+(() => {
+  const overlay = document.getElementById('cardOverlay');
+  const bgMusic = document.getElementById('bgMusic');
+  if (!overlay) return;
+
+  const base = overlay.querySelector('.card-base');
+
+  // Music files for random play
+  const MUSIC_FILES = [
+    'music.mp3',
+    'music2.mp3',
+    'music3.mp3',
+    'music4.mp3'
+  ];
+
+  function pickMusicFile() {
+    // True random, equal probability, minimal repeat on reload
+    let lastIdx = parseInt(window.localStorage.getItem('lastMusicIdx') || '', 10);
+    let idx = Math.floor(Math.random() * MUSIC_FILES.length);
+    if (MUSIC_FILES.length > 1 && !isNaN(lastIdx)) {
+      // If repeat, shuffle until not same (max 3 tries)
+      let tries = 0;
+      while (idx === lastIdx && tries < 3) {
+        idx = Math.floor(Math.random() * MUSIC_FILES.length);
+        tries++;
+      }
+    }
+    window.localStorage.setItem('lastMusicIdx', String(idx));
+    return MUSIC_FILES[idx];
+  }
+
+  // Subtle tilt/parallax on pointer move
+  (function initTilt() {
+    const card = overlay.querySelector('.card');
+    if (!card) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    let targetRx = 0;
+    let targetRy = 0;
+    let rafId = 0;
+
+    function tick() {
+      rafId = 0;
+      // Reduce tilt once opened
+      const tiltScale = overlay.classList.contains('open') ? 0.45 : 1;
+      const rx = targetRx * tiltScale;
+      const ry = targetRy * tiltScale;
+      card.style.transform = `translateZ(0) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+    }
+
+    function schedule() {
+      if (rafId) return;
+      rafId = requestAnimationFrame(tick);
+    }
+
+    function onMove(e) {
+      const rect = overlay.getBoundingClientRect();
+      const px = (e.clientX - rect.left) / rect.width;
+      const py = (e.clientY - rect.top) / rect.height;
+      const nx = (px - 0.5);
+      const ny = (py - 0.5);
+
+      targetRy = nx * -10;
+      targetRx = ny * 8;
+      schedule();
+    }
+
+    function reset() {
+      targetRx = 0;
+      targetRy = 0;
+      schedule();
+    }
+
+    overlay.addEventListener('pointermove', onMove, { passive: true });
+    overlay.addEventListener('pointerleave', reset, { passive: true });
+    overlay.addEventListener('pointerdown', reset, { passive: true });
+  })();
+
+  // Timing: make the overlay fully disappear ~5s after user opens the card.
+  // Total = HIDE_DELAY_MS + OVERLAY_FADE_MS
+  const OVERLAY_FADE_MS = 550;
+  const HIDE_DELAY_MS = 5000 - OVERLAY_FADE_MS;
+
+  let opened = false;
+  let musicStarted = false;
+  let experienceStarted = false;
+
+  function startExperience() {
+    if (experienceStarted) return;
+    experienceStarted = true;
+    document.body.classList.add('experience-on');
+
+    // Let the rest of the page know the experience is allowed to start now.
+    window.dispatchEvent(new Event('experience:start'));
+  }
+
+  function startMusicOnClick() {
+    if (musicStarted) return;
+    musicStarted = true;
+
+    if (!bgMusic) return;
+    bgMusic.volume = 0.35;
+    // Some browsers require play() to be directly triggered by a user gesture (we call this from click/Enter).
+    const p = bgMusic.play();
+    if (p && typeof p.catch === 'function') {
+      p.catch(() => {
+        // Ignore autoplay restrictions / user didn't interact enough.
+      });
+    }
+  }
+
+  function openCard() {
+    if (opened) return;
+    opened = true;
+
+    overlay.classList.remove('sheet-drop');
+    overlay.classList.remove('sheet-out');
+    overlay.classList.add('open');
+    // Pick random music file for this open
+    if (bgMusic) {
+      bgMusic.src = pickMusicFile();
+      bgMusic.load();
+    }
+    startMusicOnClick();
+
+    // Fade overlay out after the opening animation finishes.
+    window.setTimeout(() => {
+      overlay.classList.add('hide');
+    }, HIDE_DELAY_MS);
+
+    // Start the experience only after the overlay is fully hidden (fallback timer).
+    window.setTimeout(() => {
+      startExperience();
+    }, HIDE_DELAY_MS + OVERLAY_FADE_MS + 200);
+  }
+
+  // Prefer transition end to ensure overlay is fully gone before starting effects.
+  overlay.addEventListener('transitionend', (e) => {
+    if (e.target !== overlay) return;
+    if (e.propertyName !== 'opacity') return;
+    if (!overlay.classList.contains('hide')) return;
+    startExperience();
+  });
+
+  // When the inner sheet finishes sliding, put it above the pocket.
+  if (base) {
+    base.addEventListener('transitionend', (e) => {
+      if (e.propertyName !== 'transform') return;
+      if (!overlay.classList.contains('open')) return;
+
+      // Stage 1 -> Stage 2: pop out finished, now drop to align with the card.
+      if (!overlay.classList.contains('sheet-drop')) {
+        overlay.classList.add('sheet-drop');
+        return;
+      }
+
+      // Stage 2 -> final: drop finished, lock the final stacking state.
+      overlay.classList.add('sheet-out');
+    });
+  }
+
+  // Mobile-friendly press feedback
+  overlay.addEventListener('pointerdown', () => {
+    if (opened) return;
+    overlay.classList.add('pressed');
+  }, { passive: true });
+
+  function clearPressed() {
+    overlay.classList.remove('pressed');
+  }
+  overlay.addEventListener('pointerup', clearPressed, { passive: true });
+  overlay.addEventListener('pointercancel', clearPressed, { passive: true });
+  overlay.addEventListener('pointerleave', clearPressed, { passive: true });
+
+  overlay.addEventListener('click', openCard, { passive: true });
+  overlay.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openCard();
+    }
+  });
+})();
+</script>
+
+<script>
+(() => {
+  const hudMessage = document.getElementById('hudMessage');
+  if (!hudMessage) return;
+
+  const queue = [
+   { html: '🎉 <strong>Chúc mừng sinh nhật Liên Liên</strong> 🎉', ms: 7000 },
+{ html: 'Chúc Liên Liên luôn xinh đẹp theo cách rất riêng 💐', ms: 7000 },
+{ html: 'Tuổi mới thêm nhiều niềm vui và thành công 🍀', ms: 7000 },
+{ html: 'Luôn được yêu thương và trân trọng ❤️', ms: 7000 },
+{ html: 'Mọi điều mong ước đều sớm thành hiện thực ✨', ms: 7000 },
+
+  ];
+
+  let running = false;
+  let timer = 0;
+
+  function show(html) {
+    hudMessage.innerHTML = html;
+    hudMessage.classList.add('show');
+  }
+
+  function hide() {
+    hudMessage.classList.remove('show');
+  }
+
+  function runSequence() {
+    if (running) return;
+    running = true;
+
+    let i = 0;
+    const step = () => {
+      if (i >= queue.length) {
+        hide();
+        window.dispatchEvent(new Event('hud:done'));
+        return;
+      }
+
+      const item = queue[i++];
+      show(item.html);
+      timer = window.setTimeout(() => {
+        hide();
+        timer = window.setTimeout(step, 520);
+      }, item.ms);
+    };
+
+    step();
+  }
+
+  window.addEventListener('experience:start', runSequence, { once: true });
+})();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.124.0/build/three.min.js"></script>
+<script>
+/* ================= CONFIG ================= */
+const CONFIG = {
+  heartParticles: 12000,      // Particles cho tim đặc
+  heartScale: 0.9,
+  particleSize: 0.7,
+  ringParticles: 3000,
+  imageUrl: "laanh.jpg",
+  imageSize: 13               // Kích thước ảnh trong tim
+};
+
+/* ================= SCENE SETUP ================= */
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 3));
+renderer.setClearColor(0x000000, 1);
+
+// Color output (Three r124)
+renderer.outputEncoding = THREE.sRGBEncoding;
+document.body.appendChild(renderer.domElement);
+
+// Keep the scene crisp: no fog / filmic tone mapping
+scene.fog = null;
+
+// Starfield backdrop
+const starGeo = new THREE.BufferGeometry();
+const STAR_COUNT = 1200;
+const starPos = new Float32Array(STAR_COUNT * 3);
+const starCol = new Float32Array(STAR_COUNT * 3);
+for (let i = 0; i < STAR_COUNT; i++) {
+  const idx = i * 3;
+  const u = Math.random();
+  const v = Math.random();
+  const theta = 2 * Math.PI * u;
+  const phi = Math.acos(2 * v - 1);
+  const radius = 240 + Math.random() * 260;
+  starPos[idx] = Math.sin(phi) * Math.cos(theta) * radius;
+  starPos[idx + 1] = Math.cos(phi) * radius;
+  starPos[idx + 2] = Math.sin(phi) * Math.sin(theta) * radius;
+
+  const c = new THREE.Color().setHSL(0.62 + Math.random() * 0.08, 0.25 + Math.random() * 0.25, 0.70 + Math.random() * 0.25);
+  starCol[idx] = c.r;
+  starCol[idx + 1] = c.g;
+  starCol[idx + 2] = c.b;
+}
+starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+starGeo.setAttribute('color', new THREE.BufferAttribute(starCol, 3));
+
+const starMat = new THREE.PointsMaterial({
+  size: 0.9,
+  vertexColors: true,
+  transparent: true,
+  opacity: 0.28,
+  blending: THREE.AdditiveBlending,
+  depthWrite: false
+});
+
+const starMesh = new THREE.Points(starGeo, starMat);
+starMesh.renderOrder = -10;
+scene.add(starMesh);
+
+/* ================= HEART GROUP ================= */
+const heartGroup = new THREE.Group();
+scene.add(heartGroup);
+
+/* ================= CAMERA SETUP ================= */
+function updateCamera() {
+  const aspect = window.innerWidth / window.innerHeight;
+  camera.position.z = aspect < 1 ? 75 / aspect * 0.7 : 60;
+  heartGroup.position.y = aspect < 1 ? 8 : 10;
+  camera.lookAt(0, heartGroup.position.y, 0);
+}
+updateCamera();
+
+/* ================= TEXTURES ================= */
+const discTexture = new THREE.TextureLoader().load(
+  "https://threejs.org/examples/textures/sprites/disc.png"
+);
+
+// Tạo glow texture cho particles đẹp hơn
+const glowCanvas = document.createElement('canvas');
+glowCanvas.width = 64;
+glowCanvas.height = 64;
+const glowCtx = glowCanvas.getContext('2d');
+const gradient = glowCtx.createRadialGradient(32, 32, 0, 32, 32, 32);
+gradient.addColorStop(0, 'rgba(255,255,255,1)');
+gradient.addColorStop(0.2, 'rgba(255,150,180,0.8)');
+gradient.addColorStop(0.5, 'rgba(255,100,150,0.3)');
+gradient.addColorStop(1, 'rgba(255,50,100,0)');
+glowCtx.fillStyle = gradient;
+glowCtx.fillRect(0, 0, 64, 64);
+const glowTexture = new THREE.CanvasTexture(glowCanvas);
+
+// Stronger glow for the heart only (keeps other particles unchanged)
+const heartGlowCanvas = document.createElement('canvas');
+heartGlowCanvas.width = 64;
+heartGlowCanvas.height = 64;
+const heartGlowCtx = heartGlowCanvas.getContext('2d');
+const heartGradient = heartGlowCtx.createRadialGradient(32, 32, 0, 32, 32, 32);
+heartGradient.addColorStop(0, 'rgba(255,255,255,1)');
+heartGradient.addColorStop(0.22, 'rgba(255,120,160,0.95)');
+heartGradient.addColorStop(0.55, 'rgba(255,70,130,0.62)');
+heartGradient.addColorStop(1, 'rgba(255,50,100,0)');
+heartGlowCtx.fillStyle = heartGradient;
+heartGlowCtx.fillRect(0, 0, 64, 64);
+const heartGlowTexture = new THREE.CanvasTexture(heartGlowCanvas);
+
+/* ================= HEART MATH ================= */
+function heartShape(t, scale = 1) {
+  const x = 16 * Math.pow(Math.sin(t), 3);
+  const y = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
+  return { x: x * scale, y: y * scale };
+}
+
+// Kiểm tra điểm nằm trong trái tim (dùng parametric heart)
+function isInsideHeart(px, py, scale = 1) {
+  // Scale về hệ tọa độ chuẩn của heart equation
+  const x = px / (16 * scale);
+  const y = (py + 2 * scale) / (16 * scale); // offset Y vì tâm tim không ở 0
+  
+  // Heart equation: (x² + y² - 1)³ - x²y³ ≤ 0
+  const x2 = x * x;
+  const y2 = y * y;
+  const eq = Math.pow(x2 + y2 - 1, 3) - x2 * y2 * y;
+  return eq <= 0;
+}
+
+// Tạo filled heart points sử dụng parametric approach
+function generateFilledHeartPoints(count, scale) {
+  const points = [];
+  
+  while (points.length < count) {
+    // Random góc và khoảng cách từ tâm
+    const t = Math.random() * Math.PI * 2;
+    const r = Math.random(); // 0-1, sẽ scale theo heart shape
+    
+    // Heart parametric
+    const heartX = 16 * Math.pow(Math.sin(t), 3);
+    const heartY = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
+    
+    // Fill bên trong bằng cách nhân với r
+    const x = heartX * r * scale;
+    const y = heartY * r * scale;
+    const z = (Math.random() - 0.5) * 4 * scale;
+    
+    points.push(new THREE.Vector3(x, y, z));
+  }
+  return points;
+}
+
+/* ================= HEART PARTICLES ================= */
+const HEART_POINTS = generateFilledHeartPoints(CONFIG.heartParticles, CONFIG.heartScale);
+const heartPositions = new Float32Array(CONFIG.heartParticles * 3);
+const heartColors = new Float32Array(CONFIG.heartParticles * 3);
+const heartTargets = [];
+const heartSpeeds = [];
+const heartArrived = []; // Track xem particle đã đến đích chưa
+const heartDelays = []; // Delay trước khi reset
+
+// Morph targets (heart -> cake)
+let cakeTargets = null;
+let cakeColorTargets = null;
+let cakeCandleTops = null;
+let morphActive = false;
+let morphProgress = 0;
+let cakeDoneDispatched = false;
+const MORPH_DURATION_SEC = 6.5;
+
+// Candle flame mesh
+let flameMesh = null;
+let flameBase = null;
+let flamePhase = null;
+
+// Mid text between ring and cake
+let midTextSprite = null;
+
+for (let i = 0; i < CONFIG.heartParticles; i++) {
+  const target = HEART_POINTS[i];
+  heartTargets.push(target);
+  
+  // Spawn từ dưới lên
+  heartPositions[i * 3] = (Math.random() - 0.5) * 80;
+  heartPositions[i * 3 + 1] = -50 - Math.random() * 30;
+  heartPositions[i * 3 + 2] = (Math.random() - 0.5) * 80;
+  
+  heartSpeeds.push(0.003 + Math.random() * 0.007); // Chậm hơn, lãng mạn hơn
+  heartArrived.push(false);
+  heartDelays.push(0);
+  
+  // Gradient color: đỏ đậm (giảm hồng) để tim/bánh rõ hơn
+  const normalizedY = (target.y + 15) / 30;
+  heartColors[i * 3] = 0.92 + Math.random() * 0.08;
+  heartColors[i * 3 + 1] = 0.04 + normalizedY * 0.07 + Math.random() * 0.03;
+  heartColors[i * 3 + 2] = 0.06 + normalizedY * 0.09 + Math.random() * 0.04;
+}
+
+function smoothstep(t) {
+  const x = Math.min(1, Math.max(0, t));
+  return x * x * (3 - 2 * x);
+}
+
+function generateCakeTargets(count) {
+  const targets = new Array(count);
+  const colors = new Float32Array(count * 3);
+
+  // Cake dimensions (tuned to roughly match heart scale)
+  const cakeRadius = 13;
+  const cakeHeight = 10;
+  const baseY = -6;
+  const topY = baseY + cakeHeight;
+
+  const bodyCount = Math.floor(count * 0.84);
+  const frostingCount = Math.floor(count * 0.08);
+  const candleCount = Math.floor(count * 0.06);
+  const sprinkleCount = count - bodyCount - frostingCount - candleCount;
+
+  let write = 0;
+
+  // Body (cylinder filled)
+  for (let i = 0; i < bodyCount; i++) {
+    const a = Math.random() * Math.PI * 2;
+    const r = cakeRadius * Math.sqrt(Math.random());
+    const x = Math.cos(a) * r;
+    const z = Math.sin(a) * r;
+    const y = baseY + Math.random() * cakeHeight;
+    targets[write] = new THREE.Vector3(x, y, z);
+
+    // Deep red cake body (less pink)
+    const c = new THREE.Color().setHSL(0.0 + Math.random() * 0.01, 0.88 + Math.random() * 0.1, 0.38 + Math.random() * 0.12);
+    colors[write * 3] = c.r;
+    colors[write * 3 + 1] = c.g;
+    colors[write * 3 + 2] = c.b;
+    write++;
+  }
+
+  // Frosting top (slightly wavy disc)
+  for (let i = 0; i < frostingCount; i++) {
+    const a = Math.random() * Math.PI * 2;
+    const r = cakeRadius * (0.65 + Math.random() * 0.35);
+    const x = Math.cos(a) * r;
+    const z = Math.sin(a) * r;
+    const y = topY + (Math.random() - 0.5) * 0.9;
+    targets[write] = new THREE.Vector3(x, y, z);
+
+    // Creamy frosting
+    const c = new THREE.Color().setHSL(0.02 + Math.random() * 0.03, 0.25 + Math.random() * 0.2, 0.92);
+    colors[write * 3] = c.r;
+    colors[write * 3 + 1] = c.g;
+    colors[write * 3 + 2] = c.b;
+    write++;
+  }
+
+  // Candles (vertical thin cylinders on top)
+  const candlePositions = [];
+  const candleNum = 6;
+  for (let c = 0; c < candleNum; c++) {
+    const a = (c / candleNum) * Math.PI * 2 + Math.random() * 0.18;
+    const r = 6.2 + Math.random() * 0.8;
+    candlePositions.push(new THREE.Vector3(Math.cos(a) * r, topY + 0.4, Math.sin(a) * r));
+  }
+
+  const candleHeight = 6.5;
+  for (let i = 0; i < candleCount; i++) {
+    const candle = candlePositions[i % candlePositions.length];
+    const a = Math.random() * Math.PI * 2;
+    const rr = 0.65 * Math.sqrt(Math.random());
+    const x = candle.x + Math.cos(a) * rr;
+    const z = candle.z + Math.sin(a) * rr;
+    const y = candle.y + Math.random() * candleHeight;
+    targets[write] = new THREE.Vector3(x, y, z);
+
+    // Candle colors: warm ivory so flame reads clearer on red cake
+    const ccol = new THREE.Color().setHSL(0.12 + Math.random() * 0.03, 0.25 + Math.random() * 0.08, 0.85 + Math.random() * 0.06);
+    colors[write * 3] = ccol.r;
+    colors[write * 3 + 1] = ccol.g;
+    colors[write * 3 + 2] = ccol.b;
+    write++;
+  }
+
+  // Sprinkles around top edge
+  for (let i = 0; i < sprinkleCount; i++) {
+    const a = Math.random() * Math.PI * 2;
+    const r = cakeRadius * (0.88 + Math.random() * 0.12);
+    const x = Math.cos(a) * r;
+    const z = Math.sin(a) * r;
+    const y = topY - 0.5 + (Math.random() - 0.5) * 1.4;
+    targets[write] = new THREE.Vector3(x, y, z);
+
+    const hue = Math.random();
+    const c = new THREE.Color().setHSL(hue, 0.75, 0.7);
+    colors[write * 3] = c.r;
+    colors[write * 3 + 1] = c.g;
+    colors[write * 3 + 2] = c.b;
+    write++;
+  }
+
+  // Candle tops (for flames)
+  const candleTops = candlePositions.map(p => new THREE.Vector3(p.x, p.y + candleHeight + 0.2, p.z));
+  return { targets, colors, candleTops };
+}
+
+function ensureFlames(candleTops) {
+  if (flameMesh) return;
+
+  const FLAME_COUNT = 360;
+  const flamePos = new Float32Array(FLAME_COUNT * 3);
+  const flameCol = new Float32Array(FLAME_COUNT * 3);
+  flameBase = new Float32Array(FLAME_COUNT * 3);
+  flamePhase = new Float32Array(FLAME_COUNT);
+
+  for (let i = 0; i < FLAME_COUNT; i++) {
+    const base = candleTops[i % candleTops.length];
+    const idx = i * 3;
+    const rx = (Math.random() - 0.5) * 0.55;
+    const rz = (Math.random() - 0.5) * 0.55;
+    const ry = Math.random() * 0.9;
+
+    flameBase[idx] = base.x + rx;
+    flameBase[idx + 1] = base.y + ry;
+    flameBase[idx + 2] = base.z + rz;
+
+    flamePos[idx] = flameBase[idx];
+    flamePos[idx + 1] = flameBase[idx + 1];
+    flamePos[idx + 2] = flameBase[idx + 2];
+
+    flamePhase[i] = Math.random() * Math.PI * 2;
+
+    // orange/yellow flame gradient (brighter for clarity)
+    const t = Math.random();
+    const c = new THREE.Color().setHSL(0.07 + t * 0.06, 1.0, 0.72 + t * 0.22);
+    flameCol[idx] = c.r;
+    flameCol[idx + 1] = c.g;
+    flameCol[idx + 2] = c.b;
+  }
+
+  const flameGeo = new THREE.BufferGeometry();
+  flameGeo.setAttribute('position', new THREE.BufferAttribute(flamePos, 3));
+  flameGeo.setAttribute('color', new THREE.BufferAttribute(flameCol, 3));
+
+  const flameMat = new THREE.PointsMaterial({
+    map: glowTexture,
+    size: 1.32,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false
+  });
+
+  flameMesh = new THREE.Points(flameGeo, flameMat);
+  flameMesh.renderOrder = 6000;
+  scene.add(flameMesh);
+}
+
+function ensureMidBirthdayText() {
+  if (midTextSprite) return;
+
+  const canvas = document.createElement('canvas');
+  canvas.width = 1024;
+  canvas.height = 256;
+  const ctx = canvas.getContext('2d');
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+
+  // Glow
+  ctx.shadowColor = 'rgba(255,120,190,0.55)';
+  ctx.shadowBlur = 24;
+  ctx.shadowOffsetY = 10;
+
+  // Line 1
+  ctx.font = '900 56px Poppins, Arial, sans-serif';
+  const grad = ctx.createLinearGradient(180, 0, canvas.width - 180, 0);
+  grad.addColorStop(0, 'rgba(255,240,248,0.98)');
+  grad.addColorStop(0.5, 'rgba(255,180,222,0.98)');
+  grad.addColorStop(1, 'rgba(200,190,255,0.98)');
+  ctx.fillStyle = grad;
+  ctx.fillText('HAPPY BIRTHDAY', canvas.width / 2, 98);
+
+  // Line 2
+  ctx.shadowColor = 'rgba(160,120,255,0.45)';
+  ctx.shadowBlur = 18;
+  ctx.shadowOffsetY = 8;
+  ctx.font = '400 86px "Great Vibes", cursive';
+  ctx.fillStyle = 'rgba(255,255,255,0.96)';
+  ctx.fillText('Liên Liên', canvas.width / 2, 168);
+
+  // Subtle stroke for readability
+  ctx.shadowBlur = 0;
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = 'rgba(0,0,0,0.28)';
+  ctx.strokeText('HAPPY BIRTHDAY', canvas.width / 2, 98);
+  ctx.strokeText('Liên Liên', canvas.width / 2, 168);
+
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.needsUpdate = true;
+  tex.minFilter = THREE.LinearFilter;
+  tex.magFilter = THREE.LinearFilter;
+
+  const mat = new THREE.SpriteMaterial({
+    map: tex,
+    transparent: true,
+    opacity: 0,
+    depthTest: false,
+    depthWrite: false
+  });
+
+  midTextSprite = new THREE.Sprite(mat);
+  midTextSprite.scale.set(32, 8, 1);
+  // Positioned between cake (around y ~ -6..4) and ring (around y ~ -22)
+  midTextSprite.position.set(0, -14, 2.2);
+  midTextSprite.renderOrder = 5500;
+  heartGroup.add(midTextSprite);
+}
+
+function startCakeMorph() {
+  if (morphActive) return;
+  const res = generateCakeTargets(CONFIG.heartParticles);
+  cakeTargets = res.targets;
+  cakeColorTargets = res.colors;
+  cakeCandleTops = res.candleTops;
+  morphActive = true;
+  morphProgress = 0;
+  cakeDoneDispatched = false;
+  ensureFlames(cakeCandleTops);
+  ensureMidBirthdayText();
+}
+
+window.addEventListener('hud:done', () => {
+  if (!document.body.classList.contains('experience-on')) return;
+  startCakeMorph();
+});
+
+/* ================= WISHES (Concept D: Floating Lanterns) ================= */
+const WISHES_DELAY_AFTER_CAKE_MS = 5000; // cake sits for 5s first
+function resolveWishesApiUrl() {
+  const localHosts = new Set(['localhost', '127.0.0.1', '0.0.0.0']);
+  const isLocal = (location.protocol === 'file:') || localHosts.has(location.hostname);
+  if (isLocal) return 'https://lananh.thuyluc.shop/api/wishes';
+  return '/api/wishes';
+}
+
+const WISHES_API_URL = resolveWishesApiUrl();
+
+// Cloudinary (unsigned upload)
+// Only needs: cloudName + an *unsigned* upload preset.
+// Do NOT put api_secret in client-side code.
+const CLOUDINARY = {
+  // Cloud name comes from CLOUDINARY_URL: cloudinary://<api_key>:<api_secret>@<cloud_name>
+  cloudName: (window.CLOUDINARY_CLOUD_NAME || localStorage.getItem('cloudinary_cloudName') || 'diwxfpt92'),
+  uploadPreset: 'lananh',
+  // Public: safe to expose client-side. Must match the same Cloudinary account as cloudName/preset.
+  apiKey: (window.CLOUDINARY_API_KEY || localStorage.getItem('cloudinary_apiKey') || '744712781254988')
+};
+
+function getCloudinaryUploadEndpoint() {
+  const cn = String(CLOUDINARY.cloudName || '').trim();
+  if (!cn || cn === 'YOUR_CLOUD_NAME') return '';
+  return `https://api.cloudinary.com/v1_1/${encodeURIComponent(cn)}/image/upload`;
+}
+
+async function uploadWishImageToCloudinary(file) {
+  if (!file) return '';
+
+  let endpoint = getCloudinaryUploadEndpoint();
+  if (!endpoint) {
+    const entered = String(prompt('Nhập Cloudinary CLOUD NAME (không phải API key/secret) để upload ảnh:', '') || '').trim();
+    if (entered) {
+      CLOUDINARY.cloudName = entered;
+      try { localStorage.setItem('cloudinary_cloudName', entered); } catch {}
+      endpoint = getCloudinaryUploadEndpoint();
+    }
+  }
+  if (!endpoint) {
+    throw new Error('Thiếu Cloudinary cloud name nên không upload được ảnh.');
+  }
+
+  // Basic guardrails
+  const maxBytes = 6 * 1024 * 1024; // 6MB
+  if (file.size > maxBytes) throw new Error('Ảnh quá lớn (tối đa 6MB).');
+
+  const form = new FormData();
+  form.append('file', file);
+  form.append('upload_preset', CLOUDINARY.uploadPreset);
+  const apiKey = String(CLOUDINARY.apiKey || '').trim();
+  if (apiKey) form.append('api_key', apiKey);
+
+  const res = await fetch(endpoint, { method: 'POST', body: form });
+  if (!res.ok) {
+    const t = await res.text().catch(() => '');
+    if (res.status === 401) {
+      throw new Error('Upload ảnh bị từ chối (401). Hãy kiểm tra Cloudinary cloudName đúng và preset "lananh" đang để Unsigned/Enabled.');
+    }
+    throw new Error(`Upload ảnh thất bại (${res.status}). ${t}`);
+  }
+  const data = await res.json();
+  const url = (data && (data.secure_url || data.url)) ? String(data.secure_url || data.url) : '';
+  if (!url) throw new Error('Upload ảnh thất bại (không nhận được URL).');
+  return url;
+}
+
+let wishesScheduled = false;
+let wishesPlaying = false;
+let finalTriggered = false;
+let wishesTimeouts = [];
+
+let wishesEndAtMs = 0;
+let wishesDoneTimerId = 0;
+let wishesRemainingMs = 0;
+let wishesPaused = false;
+let wishesTimerOnDone = null;
+
+let wishesPool = [];
+let wishesCursor = 0;
+let wishesPriority = [];
+let lanternSlotEls = [];
+
+let wishesCycle = 0;
+
+// Lantern placement: strict non-overlap via fixed horizontal slots.
+let lanternSlotCount = 4;
+let lanternColumnLeftPx = [];
+let lanternColumnWidthPx = 200;
+let lanternSlotNextOkMs = new Array(lanternSlotCount).fill(0);
+
+let lanternFeedTimerId = 0;
+let lanternFeedRunning = false;
+
+const LANTERN_FEED_MIN_INTERVAL_MS = 2800;
+const LANTERN_FEED_JITTER_MS = 1200;
+const LANTERN_AVOID_ADJ_MS = 6000;
+
+let lanternLastSpawnSlot = -1;
+let lanternLastSpawnAtMs = 0;
+
+function getLanternContainerWidth() {
+  const layer = document.getElementById('lanternLayer');
+  if (!layer) return Math.max(320, window.innerWidth || 0);
+  const rect = layer.getBoundingClientRect();
+  return Math.max(320, rect.width || 0);
+}
+
+function recomputeLanternSlots() {
+  const vw = Math.max(320, window.innerWidth || 0);
+  const containerW = getLanternContainerWidth();
+
+  // IMPORTANT: large edge padding so lanterns NEVER touch left/right edges.
+  const pad = Math.max(24, Math.round(containerW * 0.08));
+  // Smaller lantern width so they fit with proper spacing.
+  const desiredW = vw < 520 ? 160 : (vw < 900 ? 180 : 200);
+  // Required: keep ~30% horizontal spacing per lantern.
+  const gap = Math.max(48, Math.round(desiredW * 0.35));
+  const maxSlots = vw < 520 ? 2 : (vw < 900 ? 3 : 4);
+
+  const usable = Math.max(200, containerW - pad * 2);
+  const computed = Math.floor((usable + gap) / (desiredW + gap));
+  lanternSlotCount = Math.max(2, Math.min(maxSlots, computed || 2));
+
+  // Center the columns within the container.
+  const totalColsW = lanternSlotCount * desiredW + (lanternSlotCount - 1) * gap;
+  const startX = Math.max(pad, Math.floor((containerW - totalColsW) / 2));
+
+  lanternColumnWidthPx = desiredW;
+  lanternColumnLeftPx = [];
+  for (let i = 0; i < lanternSlotCount; i++) {
+    lanternColumnLeftPx.push(startX + i * (desiredW + gap));
+  }
+
+  lanternSlotNextOkMs = new Array(lanternSlotCount).fill(0);
+}
+
+recomputeLanternSlots();
+window.addEventListener('resize', () => {
+  if (!document.body.classList.contains('wishes-on')) return;
+  recomputeLanternSlots();
+});
+
+function maxLanternsOnScreen() {
+  // Max visible at once - keep it moderate to ensure spacing.
+  return Math.max(4, lanternSlotCount * 2);
+}
+
+function slotMinGapMs() {
+  // CRITICAL: Per-column cooldown must be long enough that lanterns in the same
+  // column don't overlap vertically. A lantern takes ~50-70s to fly up, so we need
+  // at least 30% of that time gap = ~18s minimum.
+  if (lanternSlotCount <= 2) return 22000;
+  if (lanternSlotCount <= 3) return 18000;
+  return 15000;
+}
+
+function pickSpawnSlot(nowMs) {
+  const start = (Math.random() * lanternSlotCount) | 0;
+  for (let off = 0; off < lanternSlotCount; off++) {
+    const idx = (start + off) % lanternSlotCount;
+    const okAt = lanternSlotNextOkMs[idx] || 0;
+    if (nowMs < okAt) continue;
+
+    // Keep adjacent columns from firing back-to-back (looks crowded).
+    if (lanternSlotCount > 2 && lanternLastSpawnSlot >= 0) {
+      const tooSoon = (nowMs - (lanternLastSpawnAtMs || 0)) < LANTERN_AVOID_ADJ_MS;
+      const adjacent = Math.abs(idx - lanternLastSpawnSlot) <= 1;
+      if (tooSoon && adjacent) continue;
+    }
+
+    return idx;
+  }
+  return -1;
+}
+
+function computeLanternWidthPx(containerWidth) {
+  // Use the precomputed column width, never exceed it.
+  return Math.max(140, Math.min(lanternColumnWidthPx || 160, containerWidth - 48));
+}
+
+function clearWishesTimeouts() {
+  for (const t of wishesTimeouts) clearTimeout(t);
+  wishesTimeouts = [];
+  wishesDoneTimerId = 0;
+  wishesEndAtMs = 0;
+  wishesRemainingMs = 0;
+  wishesPaused = false;
+  wishesTimerOnDone = null;
+}
+
+function stopLanternFeed() {
+  lanternFeedRunning = false;
+  if (lanternFeedTimerId) {
+    clearTimeout(lanternFeedTimerId);
+    lanternFeedTimerId = 0;
+  }
+}
+
+function cleanupLanternSlots() {
+  const layer = document.getElementById('lanternLayer');
+  if (layer) layer.innerHTML = '';
+  lanternSlotEls = [];
+  stopLanternFeed();
+}
+
+function nextWish() {
+  if (wishesPriority.length) return wishesPriority.shift();
+  if (!wishesPool.length) {
+    return { name: 'Góc lời chúc', message: 'Bấm “Gửi lời chúc” để gửi điều bạn muốn nói tới Liên Liên nhé ✨' };
+  }
+
+  // IMPORTANT: show ALL wishes once (cycle 1) before looping to cycle 2.
+  if (wishesCursor >= wishesPool.length) {
+    wishesCycle++;
+    wishesCursor = 0;
+    // Shuffle between cycles to keep it fresh, but never mid-cycle.
+    wishesPool = shuffleInPlace(wishesPool.slice());
+  }
+
+  const w = wishesPool[wishesCursor];
+  wishesCursor++;
+  return w;
+}
+
+function peekNextWish() {
+  if (wishesPriority.length) return wishesPriority[0];
+  if (!wishesPool.length) {
+    return { name: 'Góc lời chúc', message: 'Bấm “Gửi lời chúc” để gửi điều bạn muốn nói tới Liên Liên nhé ✨' };
+  }
+
+  // Mirror cycle behavior, but do not mutate state.
+  if (wishesCursor >= wishesPool.length) {
+    return wishesPool[0];
+  }
+  return wishesPool[wishesCursor];
+}
+
+function setLanternContent(lantern, wish) {
+  const safeName = (wish?.name || '').trim();
+  const safeMsg = (wish?.message || '').trim();
+
+  let inner = lantern.querySelector('.lantern-inner');
+  if (!inner) {
+    inner = document.createElement('div');
+    inner.className = 'lantern-inner';
+    lantern.appendChild(inner);
+  }
+  inner.textContent = '';
+
+  const nameEl = document.createElement('div');
+  nameEl.className = 'lantern-name';
+  nameEl.textContent = safeName ? safeName : 'Một người bạn';
+
+  const msgEl = document.createElement('div');
+  msgEl.className = 'lantern-msg';
+  msgEl.textContent = safeMsg || 'Chúc Liên Liên một tuổi mới thật rực rỡ ✨';
+
+  inner.appendChild(nameEl);
+  inner.appendChild(msgEl);
+}
+
+function restartLanternAnimation(lantern) {
+  // Randomize start offset a bit
+  lantern.style.setProperty('--y0', `${Math.random() * 60}px`);
+  const dur = 46 + Math.random() * 22;
+  lantern.style.setProperty('--dur', `${dur}s`);
+  const sway = 3.4 + Math.random() * 2.8;
+  lantern.style.setProperty('--sway', `${sway}s`);
+
+  // Restart CSS animation
+  lantern.style.animation = 'none';
+  // Force reflow
+  void lantern.offsetHeight;
+  lantern.style.animation = '';
+}
+
+function showWishNow(wish) {
+  // Show instantly by spawning a new lantern.
+  spawnLantern(wish);
+}
+
+function shuffleInPlace(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = (Math.random() * (i + 1)) | 0;
+    const tmp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = tmp;
+  }
+  return arr;
+}
+
+function triggerFinalOverlay() {
+  if (finalTriggered) return;
+  finalTriggered = true;
+
+  stopLanternFeed();
+
+  if (fireworksIntervalId) {
+    clearInterval(fireworksIntervalId);
+    fireworksIntervalId = 0;
+  }
+
+  document.body.classList.add('final-on');
+}
+
+async function fetchWishes(limit = 30) {
+  const capped = Math.max(1, Math.min(200, limit | 0));
+  const res = await fetch(`${WISHES_API_URL}?limit=${capped}`, { cache: 'no-store' });
+  if (!res.ok) throw new Error(`fetch wishes failed: ${res.status}`);
+  const data = await res.json();
+  const wishes = Array.isArray(data) ? data : (Array.isArray(data?.wishes) ? data.wishes : []);
+  return wishes
+    .map(w => ({
+      id: w && w.id != null ? String(w.id) : '',
+      name: typeof w.name === 'string' ? w.name : '',
+      message: typeof w.message === 'string' ? w.message : '',
+      imageUrl: (typeof w.image_url === 'string' ? w.image_url : (typeof w.imageUrl === 'string' ? w.imageUrl : '')).trim(),
+      hearts: (typeof w.hearts_count === 'number' ? w.hearts_count : (typeof w.heartsCount === 'number' ? w.heartsCount : 0)) | 0
+    }))
+    .filter(w => (w.name || w.message));
+}
+
+async function fetchAllWishes() {
+  const all = [];
+  const seen = new Set();
+
+  let cursor = null;
+  let safety = 0;
+  while (safety++ < 60) {
+    const qs = cursor ? `?limit=200&cursor=${encodeURIComponent(cursor)}` : `?limit=200`;
+    const res = await fetch(`${WISHES_API_URL}${qs}`, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`fetch wishes failed: ${res.status}`);
+    const data = await res.json();
+    const rows = Array.isArray(data?.wishes) ? data.wishes : (Array.isArray(data) ? data : []);
+
+    for (const w of rows) {
+      const id = w && w.id != null ? String(w.id) : `${w?.name || ''}|${w?.message || ''}`;
+      if (seen.has(id)) continue;
+      seen.add(id);
+      all.push({
+        id: w && w.id != null ? String(w.id) : '',
+        name: typeof w.name === 'string' ? w.name : '',
+        message: typeof w.message === 'string' ? w.message : '',
+        imageUrl: (typeof w.image_url === 'string' ? w.image_url : (typeof w.imageUrl === 'string' ? w.imageUrl : '')).trim(),
+        hearts: (typeof w.hearts_count === 'number' ? w.hearts_count : (typeof w.heartsCount === 'number' ? w.heartsCount : 0)) | 0
+      });
+    }
+
+    const next = typeof data?.nextCursor === 'string' ? data.nextCursor : null;
+    const hasMore = !!data?.hasMore;
+    if (!next || !hasMore || rows.length === 0) break;
+    cursor = next;
+  }
+
+  return all.filter(w => (w.name || w.message));
+}
+
+async function postWish(name, message, imageUrl) {
+  const res = await fetch(WISHES_API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, message, imageUrl: imageUrl || '' })
+  });
+  if (!res.ok) throw new Error(`post wish failed: ${res.status}`);
+  return await res.json();
+}
+
+async function likeWish(id) {
+  const wishId = String(id || '').trim();
+  if (!wishId) throw new Error('missing wish id');
+  const res = await fetch(WISHES_API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'like', id: wishId })
+  });
+  if (!res.ok) throw new Error(`like failed: ${res.status}`);
+  return await res.json();
+}
+
+function spawnLantern(wish, forcedSlot) {
+  const layer = document.getElementById('lanternLayer');
+  if (!layer) return false;
+
+  // Cap visible lanterns to reduce stacking
+  if (layer.childElementCount >= maxLanternsOnScreen()) return false;
+
+  const wishId = wish && wish.id != null ? String(wish.id) : '';
+  const safeName = (wish?.name || '').trim();
+  const safeMsg = (wish?.message || '').trim();
+  const imageUrl = String(wish?.imageUrl || wish?.image_url || '').trim();
+  const hearts = (wish && typeof wish.hearts === 'number') ? (wish.hearts | 0)
+    : ((wish && typeof wish.hearts_count === 'number') ? (wish.hearts_count | 0) : 0);
+
+  const nowMs = Date.now();
+  const slot = (typeof forcedSlot === 'number') ? forcedSlot : pickSpawnSlot(nowMs);
+  if (slot < 0) return false;
+
+  const wrap = document.createElement('div');
+  wrap.className = 'lanternWrap';
+  wrap.style.zIndex = imageUrl ? '40' : '20';
+  if (imageUrl) wrap.dataset.hasPhoto = '1';
+  wrap.dataset.slot = String(slot);
+  if (wishId) wrap.dataset.wishId = wishId;
+
+  const lantern = document.createElement('div');
+  lantern.className = 'lantern';
+
+  const inner = document.createElement('div');
+  inner.className = 'lantern-inner';
+
+  const nameEl = document.createElement('div');
+  nameEl.className = 'lantern-name';
+  nameEl.textContent = safeName ? safeName : 'Một người bạn';
+
+  const msgEl = document.createElement('div');
+  msgEl.className = 'lantern-msg';
+  msgEl.textContent = safeMsg || 'Chúc Liên Liên một tuổi mới thật rực rỡ ✨';
+
+  inner.appendChild(nameEl);
+  inner.appendChild(msgEl);
+  lantern.appendChild(inner);
+
+  const heartsEl = document.createElement('div');
+  heartsEl.className = 'lantern-hearts';
+  heartsEl.innerHTML = `<span class="icon">♥</span><span class="count">${Math.max(0, hearts)}</span>`;
+  lantern.appendChild(heartsEl);
+
+  wrap.appendChild(lantern);
+
+  if (imageUrl) {
+    const photoWrap = document.createElement('div');
+    photoWrap.className = 'lantern-photoWrap';
+
+    const rope = document.createElement('div');
+    rope.className = 'lantern-rope';
+
+    const img = document.createElement('img');
+    img.className = 'lantern-photo';
+    img.src = imageUrl;
+    img.alt = 'Ảnh lời chúc';
+    img.loading = 'lazy';
+    img.decoding = 'async';
+
+    photoWrap.appendChild(rope);
+    photoWrap.appendChild(img);
+    wrap.appendChild(photoWrap);
+  }
+
+  // Slot-based placement (fixed X) to guarantee no overlaps
+  const rect = layer.getBoundingClientRect();
+  const containerW = Math.max(320, rect.width || 0);
+  const wpx = computeLanternWidthPx(containerW);
+  wrap.style.setProperty('--w', `${wpx}px`);
+  const leftPx = lanternColumnLeftPx[slot] != null ? lanternColumnLeftPx[slot] : Math.max(12, (containerW - wpx) / 2);
+  wrap.style.left = `${Math.round(leftPx)}px`;
+
+  // Disable drift to keep slots disjoint for the full flight
+  wrap.style.setProperty('--x0', `0px`);
+  wrap.style.setProperty('--x1', `0px`);
+
+  // Small start offset so they don't pop in on the exact same baseline
+  const y0 = Math.random() * 70;
+  wrap.style.setProperty('--y0', `${y0}px`);
+
+  // Keep a consistent speed so lanterns never “catch up” and overlap.
+  const dur = 64;
+  wrap.style.setProperty('--dur', `${dur}s`);
+  const sway = 3.4 + Math.random() * 2.8;
+  wrap.style.setProperty('--sway', `${sway}s`);
+
+  // Prevent same-slot lanterns from being too close vertically.
+  // Photo bundles are much taller (lantern + rope + photo), so keep a much longer cooldown.
+  const baseGap = slotMinGapMs();
+  const photoGap = Math.max(baseGap, Math.floor(dur * 1000 + 1500));
+  lanternSlotNextOkMs[slot] = nowMs + (imageUrl ? photoGap : baseGap) + Math.random() * 900;
+  lanternLastSpawnSlot = slot;
+  lanternLastSpawnAtMs = nowMs;
+
+  layer.appendChild(wrap);
+  wrap.addEventListener('animationend', () => {
+    wrap.remove();
+  }, { once: true });
+
+  return true;
+}
+
+function trySpawnNextLantern() {
+  const layer = document.getElementById('lanternLayer');
+  if (!layer) return false;
+  if (layer.childElementCount >= maxLanternsOnScreen()) return false;
+
+  const nowMs = Date.now();
+  const slot = pickSpawnSlot(nowMs);
+  if (slot < 0) return false;
+
+  const wish = nextWish();
+  return spawnLantern(wish, slot);
+}
+
+function startLanternFeed() {
+  const layer = document.getElementById('lanternLayer');
+  if (!layer) return;
+  if (lanternFeedRunning) return;
+  lanternFeedRunning = true;
+
+  const tick = () => {
+    if (!lanternFeedRunning) return;
+    if (!document.body.classList.contains('wishes-on')) {
+      stopLanternFeed();
+      return;
+    }
+
+    const spawned = trySpawnNextLantern();
+    // Keep it continuous: if we couldn't spawn due to spacing/cap, retry soon.
+    const nextIn = spawned
+      ? (LANTERN_FEED_MIN_INTERVAL_MS + Math.random() * LANTERN_FEED_JITTER_MS)
+      : (220 + Math.random() * 240);
+    lanternFeedTimerId = window.setTimeout(tick, nextIn);
+  };
+
+  // Prime a small burst so it feels immediate.
+  for (let i = 0; i < Math.min(3, lanternSlotCount); i++) trySpawnNextLantern();
+  lanternFeedTimerId = window.setTimeout(tick, 320);
+}
+
+function setWishModalOpen(open) {
+  document.body.classList.toggle('wish-modal', open);
+  const modal = document.getElementById('wishModal');
+  if (modal) modal.setAttribute('aria-hidden', open ? 'false' : 'true');
+
+  // Reset send button state each time modal is opened/closed.
+  const send = document.getElementById('wishSend');
+  if (send) {
+    send.disabled = false;
+    send.textContent = 'Gửi';
+  }
+}
+
+function wireWishUI() {
+  const wishFab = document.getElementById('wishFab');
+  const backdrop = document.getElementById('wishModalBackdrop');
+  const cancel = document.getElementById('wishCancel');
+  const send = document.getElementById('wishSend');
+  const nameInput = document.getElementById('wishName');
+  const msgInput = document.getElementById('wishMessage');
+  const imgInput = document.getElementById('wishImage');
+  const imgPreview = document.getElementById('wishImagePreview');
+
+  if (!wishFab || !backdrop || !cancel || !send || !nameInput || !msgInput) return;
+
+  const defaultSendText = 'Gửi';
+  const resetSendButton = () => {
+    send.disabled = false;
+    send.textContent = defaultSendText;
+  };
+
+  let previewUrl = '';
+  const clearPreview = () => {
+    if (previewUrl) {
+      try { URL.revokeObjectURL(previewUrl); } catch {}
+      previewUrl = '';
+    }
+    if (imgPreview) {
+      imgPreview.innerHTML = '';
+      imgPreview.style.display = 'none';
+    }
+  };
+
+  if (imgInput) {
+    imgInput.addEventListener('change', () => {
+      clearPreview();
+      const f = imgInput.files && imgInput.files[0];
+      if (!f) return;
+      if (!/^image\//i.test(f.type || '')) {
+        imgInput.value = '';
+        return;
+      }
+      previewUrl = URL.createObjectURL(f);
+      if (imgPreview) {
+        const im = document.createElement('img');
+        im.src = previewUrl;
+        im.alt = 'Preview';
+        imgPreview.appendChild(im);
+        imgPreview.style.display = 'block';
+      }
+    });
+  }
+
+  wishFab.addEventListener('click', () => {
+    resetSendButton();
+    setWishModalOpen(true);
+  });
+  backdrop.addEventListener('click', () => {
+    resetSendButton();
+    setWishModalOpen(false);
+  });
+  cancel.addEventListener('click', () => {
+    resetSendButton();
+    setWishModalOpen(false);
+  });
+
+  send.addEventListener('click', async () => {
+    const name = String(nameInput.value || '').trim().slice(0, 40);
+    const message = String(msgInput.value || '').trim().slice(0, 240);
+    if (!message) {
+      msgInput.focus();
+      return;
+    }
+
+    const file = imgInput && imgInput.files ? imgInput.files[0] : null;
+
+    const oldText = defaultSendText;
+    send.disabled = true;
+    send.textContent = 'Đang gửi...';
+
+    try {
+      let imageUrl = '';
+      if (file) {
+        send.textContent = 'Đang upload ảnh...';
+        imageUrl = await uploadWishImageToCloudinary(file);
+        send.textContent = 'Đang gửi...';
+      }
+
+      await postWish(name, message, imageUrl);
+      setWishModalOpen(false);
+      msgInput.value = '';
+      if (imgInput) imgInput.value = '';
+      clearPreview();
+
+      // Ensure the next open doesn't keep the loading label.
+      resetSendButton();
+
+      const w = { name, message, imageUrl };
+      // Put it first so it appears ASAP in the stream.
+      wishesPriority.unshift(w);
+      if (document.body.classList.contains('wishes-on')) {
+        trySpawnNextLantern();
+      }
+    } catch (e) {
+      console.warn(e);
+      send.textContent = 'Lỗi, thử lại';
+      const t = setTimeout(() => { send.textContent = oldText; }, 1200);
+      wishesTimeouts.push(t);
+    } finally {
+      // If an error occurred, catch() may temporarily set a different label.
+      // Always re-enable; label is reset on success or when modal is reopened.
+      send.disabled = false;
+    }
+  });
+}
+
+wireWishUI();
+
+function setPhotoModalOpen(open, url) {
+  document.body.classList.toggle('photo-modal', open);
+  const modal = document.getElementById('photoModal');
+  const img = document.getElementById('photoModalImg');
+  if (modal) modal.setAttribute('aria-hidden', open ? 'false' : 'true');
+  if (img) {
+    if (open && url) {
+      img.src = url;
+    } else {
+      img.removeAttribute('src');
+    }
+  }
+}
+
+function wirePhotoModal() {
+  const layer = document.getElementById('lanternLayer');
+  const backdrop = document.getElementById('photoModalBackdrop');
+  const closeBtn = document.getElementById('photoModalClose');
+
+  if (layer) {
+    layer.addEventListener('click', (e) => {
+      const target = e && e.target;
+      const img = target && target.closest ? target.closest('img.lantern-photo') : null;
+      if (!img) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const src = String(img.getAttribute('src') || '').trim();
+      if (!src) return;
+      setPhotoModalOpen(true, src);
+    });
+  }
+
+  if (backdrop) backdrop.addEventListener('click', () => setPhotoModalOpen(false));
+  if (closeBtn) closeBtn.addEventListener('click', () => setPhotoModalOpen(false));
+
+  window.addEventListener('keydown', (e) => {
+    if (!document.body.classList.contains('photo-modal')) return;
+    if (e.key === 'Escape') setPhotoModalOpen(false);
+  });
+}
+
+wirePhotoModal();
+
+function bumpHeartsOnWrap(wrap) {
+  if (!wrap) return;
+  const countEl = wrap.querySelector('.lantern-hearts .count');
+  if (!countEl) return;
+  const cur = parseInt(countEl.textContent || '0', 10) || 0;
+  const next = cur + 1;
+  countEl.textContent = String(next);
+}
+
+function showLikeBurstAt(layer, clientX, clientY) {
+  if (!layer) return;
+  const rect = layer.getBoundingClientRect();
+  const x = clientX - rect.left;
+  const y = clientY - rect.top;
+  const el = document.createElement('div');
+  el.className = 'likeBurst';
+  el.style.left = `${x}px`;
+  el.style.top = `${y}px`;
+  el.textContent = '♥';
+  layer.appendChild(el);
+  el.addEventListener('animationend', () => el.remove(), { once: true });
+}
+
+function wireLanternLikes() {
+  const layer = document.getElementById('lanternLayer');
+  if (!layer) return;
+
+  let lastTapId = '';
+  let lastTapAt = 0;
+
+  layer.addEventListener('pointerup', async (e) => {
+    // Like anywhere on the lantern body; ignore hanging photo clicks (photo modal uses those).
+    if (e.target && e.target.closest && e.target.closest('.lantern-photoWrap')) return;
+
+    const lantern = e.target && e.target.closest ? e.target.closest('.lantern') : null;
+    if (!lantern) return;
+
+    const wrap = lantern.closest('.lanternWrap');
+    const id = wrap && wrap.dataset ? String(wrap.dataset.wishId || '') : '';
+    if (!id) return;
+
+    const now = Date.now();
+    const isDouble = (lastTapId === id) && (now - lastTapAt) <= 340;
+    lastTapId = id;
+    lastTapAt = now;
+    if (!isDouble) return;
+
+    // TikTok-like: instant visual feedback
+    bumpHeartsOnWrap(wrap);
+    showLikeBurstAt(layer, e.clientX, e.clientY);
+
+    try {
+      const data = await likeWish(id);
+      const hc = (data && data.wish && typeof data.wish.hearts_count === 'number') ? (data.wish.hearts_count | 0) : null;
+      if (hc != null) {
+        const countEl = wrap.querySelector('.lantern-hearts .count');
+        if (countEl) countEl.textContent = String(hc);
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  }, { passive: true });
+}
+
+wireLanternLikes();
+
+async function startWishesSequence() {
+  if (wishesPlaying || finalTriggered) return;
+  wishesPlaying = true;
+  clearWishesTimeouts();
+  cleanupLanternSlots();
+
+  // Pause fireworks during wishes for a calmer vibe
+  if (fireworksIntervalId) {
+    clearInterval(fireworksIntervalId);
+    fireworksIntervalId = 0;
+  }
+
+  document.body.classList.add('wishes-on');
+
+  let wishes = [];
+  try {
+    wishes = await fetchAllWishes();
+  } catch (e) {
+    console.warn('Wishes API unavailable, continuing without feed.', e);
+  }
+
+  wishesPool = shuffleInPlace(wishes);
+  wishesCursor = 0;
+  wishesCycle = 1;
+
+  // Start a continuous stream of lanterns.
+  recomputeLanternSlots();
+  startLanternFeed();
+}
+
+window.addEventListener('cake:done', () => {
+  if (wishesScheduled || finalTriggered) return;
+  wishesScheduled = true;
+
+  const t = window.setTimeout(() => {
+    if (!document.body.classList.contains('experience-on')) return;
+    if (document.body.classList.contains('final-on')) return;
+    startWishesSequence().catch((e) => {
+      console.warn('startWishesSequence failed', e);
+    });
+  }, WISHES_DELAY_AFTER_CAKE_MS);
+  wishesTimeouts.push(t);
+});
+
+const heartGeo = new THREE.BufferGeometry();
+heartGeo.setAttribute('position', new THREE.BufferAttribute(heartPositions, 3));
+heartGeo.setAttribute('color', new THREE.BufferAttribute(heartColors, 3));
+
+const heartMat = new THREE.PointsMaterial({
+  map: heartGlowTexture,
+  size: CONFIG.particleSize,
+  vertexColors: true,
+  transparent: true,
+  opacity: 1.0,
+  alphaTest: 0.02,
+  blending: THREE.AdditiveBlending,
+  depthWrite: false
+});
+
+const heartMesh = new THREE.Points(heartGeo, heartMat);
+heartGroup.add(heartMesh);
+
+/* ================= STREAM PARTICLES (bay vào bồi đắp tim) ================= */
+const STREAM_COUNT = 800;
+const streamPositions = new Float32Array(STREAM_COUNT * 3);
+const streamColors = new Float32Array(STREAM_COUNT * 3);
+const streamTargets = [];
+const streamSpeeds = [];
+const streamPhases = []; // 0: bay lên, 1: bay vào tim
+
+function resetStreamParticle(i) {
+  const idx = i * 3;
+  // Spawn từ vòng ring phía dưới
+  const angle = Math.random() * Math.PI * 2;
+  const radius = 15 + Math.random() * 8;
+  
+  streamPositions[idx] = Math.cos(angle) * radius;
+  streamPositions[idx + 1] = -25 + Math.random() * 5;
+  streamPositions[idx + 2] = Math.sin(angle) * radius;
+  
+  // Target là 1 điểm trên viền trái tim
+  const t = Math.random() * Math.PI * 2;
+  const heartX = 16 * Math.pow(Math.sin(t), 3) * CONFIG.heartScale;
+  const heartY = (13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t)) * CONFIG.heartScale;
+  
+  streamTargets[i] = new THREE.Vector3(heartX, heartY, (Math.random() - 0.5) * 3);
+  streamSpeeds[i] = 0.015 + Math.random() * 0.025;
+  streamPhases[i] = 0;
+}
+
+for (let i = 0; i < STREAM_COUNT; i++) {
+  resetStreamParticle(i);
+  // Stagger initial positions
+  streamPositions[i * 3 + 1] = -25 + Math.random() * 50;
+  
+  // Màu hồng sáng
+  streamColors[i * 3] = 1;
+  streamColors[i * 3 + 1] = 0.4 + Math.random() * 0.3;
+  streamColors[i * 3 + 2] = 0.6 + Math.random() * 0.2;
+}
+
+const streamGeo = new THREE.BufferGeometry();
+streamGeo.setAttribute('position', new THREE.BufferAttribute(streamPositions, 3));
+streamGeo.setAttribute('color', new THREE.BufferAttribute(streamColors, 3));
+
+const streamMat = new THREE.PointsMaterial({
+  map: glowTexture,
+  size: 0.6,
+  vertexColors: true,
+  transparent: true,
+  opacity: 0.85,
+  blending: THREE.AdditiveBlending,
+  depthWrite: false
+});
+
+const streamMesh = new THREE.Points(streamGeo, streamMat);
+heartGroup.add(streamMesh);
+
+/* ================= IMAGE WITH HEART MASK ================= */
+// Tạo canvas để mask ảnh theo hình trái tim MỀM MẠI
+const imgElement = new Image();
+imgElement.crossOrigin = "anonymous";
+imgElement.onload = function() {
+  const canvas = document.createElement('canvas');
+  const size = 512;
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  
+  const scale = size / 38;
+  const offsetX = size / 2;
+  const offsetY = size / 2 + 3 * scale;
+  
+  // Hàm vẽ đường trái tim
+  function drawHeartPath(ctx, scale, offsetX, offsetY) {
+    ctx.beginPath();
+    for (let t = 0; t <= Math.PI * 2; t += 0.01) {
+      const x = 16 * Math.pow(Math.sin(t), 3);
+      const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+      const px = offsetX + x * scale;
+      const py = offsetY + y * scale;
+      if (t === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.closePath();
+  }
+  
+  // Tạo mask mềm mại bằng cách vẽ nhiều lớp với độ mờ giảm dần
+  const tempCanvas = document.createElement('canvas');
+  tempCanvas.width = size;
+  tempCanvas.height = size;
+  const tempCtx = tempCanvas.getContext('2d');
+  tempCtx.imageSmoothingEnabled = true;
+  try { tempCtx.imageSmoothingQuality = 'high'; } catch (e) {}
+  
+  // Vẽ ảnh trước
+  const heartWidth = 32 * scale;
+  const heartHeight = 30 * scale;
+  const imgW = heartWidth * 0.95;
+  const imgH = heartHeight * 1.1;
+  const imgX = (size - imgW) / 2;
+  const imgY = offsetY - heartHeight * 0.35;
+  tempCtx.drawImage(imgElement, imgX, imgY, imgW, imgH);
+  
+  // Tạo mask gradient mềm
+  const maskCanvas = document.createElement('canvas');
+  maskCanvas.width = size;
+  maskCanvas.height = size;
+  const maskCtx = maskCanvas.getContext('2d');
+  maskCtx.imageSmoothingEnabled = true;
+  try { maskCtx.imageSmoothingQuality = 'high'; } catch (e) {}
+  
+  // Vẽ trái tim với blur effect bằng shadow
+  maskCtx.shadowColor = 'white';
+  maskCtx.shadowBlur = 8; // Viền bớt mềm để ảnh sắc và đậm hơn
+  maskCtx.shadowOffsetX = 0;
+  maskCtx.shadowOffsetY = 0;
+  maskCtx.fillStyle = 'white';
+  drawHeartPath(maskCtx, scale * 0.95, offsetX, offsetY);
+  maskCtx.fill();
+  
+  // Vẽ lại không shadow để có core rõ
+  maskCtx.shadowBlur = 0;
+  drawHeartPath(maskCtx, scale * 0.92, offsetX, offsetY);
+  maskCtx.fill();
+  
+  // Apply mask lên ảnh
+  ctx.imageSmoothingEnabled = true;
+  try { ctx.imageSmoothingQuality = 'high'; } catch (e) {}
+  ctx.drawImage(tempCanvas, 0, 0);
+  ctx.globalCompositeOperation = 'destination-in';
+  ctx.drawImage(maskCanvas, 0, 0);
+  ctx.globalCompositeOperation = 'source-over';
+  
+  // Tạo texture từ canvas
+  const maskedTexture = new THREE.CanvasTexture(canvas);
+  maskedTexture.encoding = THREE.sRGBEncoding;
+  maskedTexture.generateMipmaps = true;
+  maskedTexture.minFilter = THREE.LinearMipMapLinearFilter;
+  maskedTexture.magFilter = THREE.LinearFilter;
+  maskedTexture.anisotropy = (renderer.capabilities && renderer.capabilities.getMaxAnisotropy)
+    ? renderer.capabilities.getMaxAnisotropy()
+    : 1;
+  maskedTexture.needsUpdate = true;
+  
+  const imageMat = new THREE.SpriteMaterial({
+    map: maskedTexture,
+    transparent: true,
+    opacity: 0,
+    blending: THREE.NormalBlending,
+    depthTest: false
+  });
+  
+  const imageSprite = new THREE.Sprite(imageMat);
+  imageSprite.scale.set(CONFIG.imageSize, CONFIG.imageSize, 1);
+  imageSprite.position.set(0, -0.5, 1.5);
+  imageSprite.renderOrder = 999;
+  heartGroup.add(imageSprite);
+  
+  // Lưu reference để animate
+  window.imageSprite = imageSprite;
+  window.imageMat = imageMat;
+};
+imgElement.src = CONFIG.imageUrl;
+
+// Fade in ảnh sau khi particles tụ lại
+let imageOpacity = 0;
+let imageReady = false;
+
+// Start this timer only when the experience actually starts.
+(function scheduleImageReady() {
+  if (document.body.classList.contains('experience-on')) {
+    setTimeout(() => { imageReady = true; }, 5000); // 5 giây - chờ tim hình thành đẹp
+  } else {
+    setTimeout(scheduleImageReady, 200);
+  }
+})();
+
+/* ================= ENERGY RING ================= */
+const ringPositions = new Float32Array(CONFIG.ringParticles * 3);
+const ringColors = new Float32Array(CONFIG.ringParticles * 3);
+
+for (let i = 0; i < CONFIG.ringParticles; i++) {
+  const angle = Math.random() * Math.PI * 2;
+  const radius = 18 + Math.random() * 4;
+  
+  ringPositions[i * 3] = Math.cos(angle) * radius;
+  ringPositions[i * 3 + 1] = -22 + (Math.random() - 0.5) * 2;
+  ringPositions[i * 3 + 2] = Math.sin(angle) * radius;
+  
+  // Cyan gradient
+  ringColors[i * 3] = 0.1 + Math.random() * 0.2;
+  ringColors[i * 3 + 1] = 0.8 + Math.random() * 0.2;
+  ringColors[i * 3 + 2] = 1;
+}
+
+const ringGeo = new THREE.BufferGeometry();
+ringGeo.setAttribute('position', new THREE.BufferAttribute(ringPositions, 3));
+ringGeo.setAttribute('color', new THREE.BufferAttribute(ringColors, 3));
+
+const ringMat = new THREE.PointsMaterial({
+  map: glowTexture,
+  size: 0.8,
+  vertexColors: true,
+  transparent: true,
+  opacity: 0.9,
+  blending: THREE.AdditiveBlending,
+  depthWrite: false
+});
+
+const ringMesh = new THREE.Points(ringGeo, ringMat);
+heartGroup.add(ringMesh);
+
+/* ================= FLOATING PARTICLES ================= */
+const FLOAT_COUNT = 2000;
+const floatPositions = new Float32Array(FLOAT_COUNT * 3);
+const floatSpeeds = [];
+
+for (let i = 0; i < FLOAT_COUNT; i++) {
+  floatPositions[i * 3] = (Math.random() - 0.5) * 60;
+  floatPositions[i * 3 + 1] = -35 + Math.random() * 70;
+  floatPositions[i * 3 + 2] = (Math.random() - 0.5) * 60;
+  floatSpeeds.push(0.03 + Math.random() * 0.08);
+}
+
+const floatGeo = new THREE.BufferGeometry();
+floatGeo.setAttribute('position', new THREE.BufferAttribute(floatPositions, 3));
+
+const floatMat = new THREE.PointsMaterial({
+  map: discTexture,
+  color: 0xff5080,
+  size: 0.5,
+  transparent: true,
+  opacity: 0.5,
+  blending: THREE.AdditiveBlending,
+  depthWrite: false
+});
+
+const floatMesh = new THREE.Points(floatGeo, floatMat);
+heartGroup.add(floatMesh);
+
+/* ================= 🎄 CHRISTMAS EFFECTS 🎄 ================= */
+
+// ❄️ SNOW PARTICLES
+const SNOW_COUNT = 500;
+const snowPositions = new Float32Array(SNOW_COUNT * 3);
+const snowSpeeds = [];
+const snowDrifts = [];
+
+for (let i = 0; i < SNOW_COUNT; i++) {
+  snowPositions[i * 3] = (Math.random() - 0.5) * 100;
+  snowPositions[i * 3 + 1] = Math.random() * 80 - 20;
+  snowPositions[i * 3 + 2] = (Math.random() - 0.5) * 100;
+  snowSpeeds.push(0.02 + Math.random() * 0.05);
+  snowDrifts.push(Math.random() * Math.PI * 2); // Phase for swaying
+}
+
+const snowGeo = new THREE.BufferGeometry();
+snowGeo.setAttribute('position', new THREE.BufferAttribute(snowPositions, 3));
+
+// Tạo snowflake texture
+const snowCanvas = document.createElement('canvas');
+snowCanvas.width = 32;
+snowCanvas.height = 32;
+const snowCtx = snowCanvas.getContext('2d');
+const snowGrad = snowCtx.createRadialGradient(16, 16, 0, 16, 16, 16);
+snowGrad.addColorStop(0, 'rgba(255,255,255,1)');
+snowGrad.addColorStop(0.3, 'rgba(255,255,255,0.8)');
+snowGrad.addColorStop(1, 'rgba(255,255,255,0)');
+snowCtx.fillStyle = snowGrad;
+snowCtx.fillRect(0, 0, 32, 32);
+const snowTexture = new THREE.CanvasTexture(snowCanvas);
+
+const snowMat = new THREE.PointsMaterial({
+  map: snowTexture,
+  size: 0.8,
+  transparent: true,
+  opacity: 0.9,
+  blending: THREE.AdditiveBlending,
+  depthWrite: false
+});
+
+const snowMesh = new THREE.Points(snowGeo, snowMat);
+scene.add(snowMesh); // Add to scene, not heartGroup
+
+// 🎅 SANTA HAT (bằng particles)
+const HAT_PARTICLES = 600;
+const hatPositions = new Float32Array(HAT_PARTICLES * 3);
+const hatColors = new Float32Array(HAT_PARTICLES * 3);
+
+// Vị trí mũ trên đỉnh tim
+const hatBaseY = 13 * CONFIG.heartScale; // Đỉnh tim
+const hatOffsetX = 5; // Nghiêng sang phải một chút
+
+for (let i = 0; i < HAT_PARTICLES; i++) {
+  let x, y, z;
+  const part = Math.random();
+  
+  if (part < 0.6) {
+    // Phần thân mũ đỏ (hình tam giác/cone)
+    const height = Math.random();
+    const radius = (1 - height) * 6; // Nhỏ dần lên đỉnh
+    const angle = Math.random() * Math.PI * 2;
+    
+    x = hatOffsetX + Math.cos(angle) * radius + (Math.random() - 0.5) * 2;
+    y = hatBaseY + height * 12;
+    z = Math.sin(angle) * radius * 0.5 + (Math.random() - 0.5) * 2;
+    
+    // Màu đỏ
+    hatColors[i * 3] = 0.9 + Math.random() * 0.1;
+    hatColors[i * 3 + 1] = 0.1 + Math.random() * 0.1;
+    hatColors[i * 3 + 2] = 0.1 + Math.random() * 0.1;
+  } 
+  else if (part < 0.85) {
+    // Viền trắng dưới mũ
+    const angle = Math.random() * Math.PI * 2;
+    const radius = 6 + Math.random() * 1.5;
+    
+    x = hatOffsetX + Math.cos(angle) * radius;
+    y = hatBaseY + Math.random() * 2;
+    z = Math.sin(angle) * radius * 0.5;
+    
+    // Màu trắng
+    hatColors[i * 3] = 1;
+    hatColors[i * 3 + 1] = 1;
+    hatColors[i * 3 + 2] = 1;
+  }
+  else {
+    // Quả cầu trắng trên đỉnh
+    const angle = Math.random() * Math.PI * 2;
+    const phi = Math.random() * Math.PI;
+    const radius = 1.5 + Math.random() * 0.5;
+    
+    x = hatOffsetX + 2 + Math.sin(phi) * Math.cos(angle) * radius;
+    y = hatBaseY + 13 + Math.sin(phi) * Math.sin(angle) * radius;
+    z = Math.cos(phi) * radius;
+    
+    // Màu trắng sáng
+    hatColors[i * 3] = 1;
+    hatColors[i * 3 + 1] = 1;
+    hatColors[i * 3 + 2] = 1;
+  }
+  
+  hatPositions[i * 3] = x;
+  hatPositions[i * 3 + 1] = y;
+  hatPositions[i * 3 + 2] = z;
+}
+
+const hatGeo = new THREE.BufferGeometry();
+hatGeo.setAttribute('position', new THREE.BufferAttribute(hatPositions, 3));
+hatGeo.setAttribute('color', new THREE.BufferAttribute(hatColors, 3));
+
+const hatMat = new THREE.PointsMaterial({
+  map: glowTexture,
+  size: 0.7,
+  vertexColors: true,
+  transparent: true,
+  opacity: 0.95,
+  blending: THREE.AdditiveBlending,
+  depthWrite: false
+});
+
+const hatMesh = new THREE.Points(hatGeo, hatMat);
+heartGroup.add(hatMesh);
+
+/* ================= 🎅🦌 SANTA SLEIGH FLYING ================= */
+const sleighGroup = new THREE.Group();
+scene.add(sleighGroup);
+
+// Tạo Santa + Sleigh + Reindeers bằng particles - TĂNG SỐ LƯỢNG
+const SLEIGH_PARTICLES = 1200;
+const sleighPositions = new Float32Array(SLEIGH_PARTICLES * 3);
+const sleighColors = new Float32Array(SLEIGH_PARTICLES * 3);
+
+for (let i = 0; i < SLEIGH_PARTICLES; i++) {
+  let x, y, z;
+  let r, g, b;
+  const part = Math.random();
+  
+  if (part < 0.15) {
+    // 🦌 Tuần lộc 1 - THÂN (phía trước bên trái)
+    const bx = -10;
+    const bz = -0.5;
+    x = bx + (Math.random() - 0.5) * 3;
+    y = (Math.random() - 0.5) * 2;
+    z = bz + (Math.random() - 0.5) * 1.5;
+    // Màu nâu sáng
+    r = 0.7 + Math.random() * 0.2;
+    g = 0.4 + Math.random() * 0.15;
+    b = 0.2 + Math.random() * 0.1;
+  }
+  else if (part < 0.2) {
+    // 🦌 Tuần lộc 1 - CHÂN
+    const bx = -10;
+    const bz = -0.5;
+    const legX = (Math.random() > 0.5 ? 0.8 : -0.8);
+    x = bx + legX + (Math.random() - 0.5) * 0.5;
+    y = -1.5 + Math.random() * 1.5;
+    z = bz + (Math.random() - 0.5) * 0.3;
+    r = 0.6; g = 0.35; b = 0.15;
+  }
+  else if (part < 0.22) {
+    // 🦌 Tuần lộc 1 - SỪNG
+    const bx = -11;
+    const bz = -0.5;
+    const antler = Math.random();
+    x = bx + (Math.random() - 0.5) * 0.8;
+    y = 1.5 + antler * 1.5;
+    z = bz + (antler > 0.5 ? 0.5 : -0.5) + (Math.random() - 0.5) * 0.3;
+    r = 0.5; g = 0.3; b = 0.15;
+  }
+  else if (part < 0.37) {
+    // 🦌 Tuần lộc 2 - THÂN (phía trước bên phải)
+    const bx = -10;
+    const bz = 2.5;
+    x = bx + (Math.random() - 0.5) * 3;
+    y = (Math.random() - 0.5) * 2;
+    z = bz + (Math.random() - 0.5) * 1.5;
+    r = 0.7 + Math.random() * 0.2;
+    g = 0.4 + Math.random() * 0.15;
+    b = 0.2 + Math.random() * 0.1;
+  }
+  else if (part < 0.42) {
+    // 🦌 Tuần lộc 2 - CHÂN
+    const bx = -10;
+    const bz = 2.5;
+    const legX = (Math.random() > 0.5 ? 0.8 : -0.8);
+    x = bx + legX + (Math.random() - 0.5) * 0.5;
+    y = -1.5 + Math.random() * 1.5;
+    z = bz + (Math.random() - 0.5) * 0.3;
+    r = 0.6; g = 0.35; b = 0.15;
+  }
+  else if (part < 0.44) {
+    // 🦌 Tuần lộc 2 - SỪNG  
+    const bx = -11;
+    const bz = 2.5;
+    const antler = Math.random();
+    x = bx + (Math.random() - 0.5) * 0.8;
+    y = 1.5 + antler * 1.5;
+    z = bz + (antler > 0.5 ? 0.5 : -0.5) + (Math.random() - 0.5) * 0.3;
+    r = 0.5; g = 0.3; b = 0.15;
+  }
+  else if (part < 0.47) {
+    // 👃 Mũi đỏ Rudolph (tuần lộc 1)
+    x = -11.8 + (Math.random() - 0.5) * 0.4;
+    y = 0.3 + (Math.random() - 0.5) * 0.4;
+    z = -0.5 + (Math.random() - 0.5) * 0.3;
+    // Màu đỏ phát sáng
+    r = 1;
+    g = 0.1 + Math.random() * 0.2;
+    b = 0.1;
+  }
+  else if (part < 0.65) {
+    // 🛷 Xe trượt tuyết - THÂN XE
+    x = (Math.random() - 0.5) * 6;
+    y = -1.2 + (Math.random() - 0.5) * 1.5;
+    z = 1 + (Math.random() - 0.5) * 3;
+    // Màu đỏ đậm
+    r = 0.85 + Math.random() * 0.15;
+    g = 0.08;
+    b = 0.08;
+  }
+  else if (part < 0.7) {
+    // 🛷 Xe - THANH TRƯỢT DƯỚI
+    const side = Math.random() > 0.5 ? -0.8 : 2.8;
+    x = -2 + Math.random() * 6;
+    y = -2.5 + (Math.random() - 0.5) * 0.4;
+    z = side + (Math.random() - 0.5) * 0.3;
+    // Màu vàng kim
+    r = 0.9; g = 0.75; b = 0.3;
+  }
+  else if (part < 0.88) {
+    // 🎅 Ông già Noel - THÂN
+    x = 1.5 + (Math.random() - 0.5) * 2.5;
+    y = 0.5 + Math.random() * 2.5;
+    z = 1 + (Math.random() - 0.5) * 2;
+    
+    const santaPart = Math.random();
+    if (santaPart < 0.5) {
+      // Áo đỏ
+      r = 1; g = 0.1; b = 0.1;
+    } else if (santaPart < 0.7) {
+      // Viền trắng áo
+      r = 1; g = 1; b = 1;
+    } else {
+      // Thắt lưng đen
+      r = 0.15; g = 0.15; b = 0.15;
+    }
+  }
+  else if (part < 0.92) {
+    // 🎅 Ông già Noel - ĐẦU + MŨ
+    x = 1.5 + (Math.random() - 0.5) * 1.2;
+    y = 3 + Math.random() * 1.8;
+    z = 1 + (Math.random() - 0.5) * 1;
+    
+    const headPart = Math.random();
+    if (headPart < 0.3) {
+      // Mặt
+      r = 1; g = 0.85; b = 0.75;
+    } else if (headPart < 0.5) {
+      // Râu trắng
+      r = 1; g = 1; b = 1;
+    } else {
+      // Mũ đỏ
+      r = 1; g = 0.1; b = 0.1;
+    }
+  }
+  else if (part < 0.95) {
+    // 🎁 Túi quà phía sau
+    x = 3.5 + (Math.random() - 0.5) * 2;
+    y = 0 + Math.random() * 2;
+    z = 1 + (Math.random() - 0.5) * 2;
+    // Màu nâu đỏ
+    r = 0.6 + Math.random() * 0.2;
+    g = 0.25;
+    b = 0.15;
+  }
+  else {
+    // ✨ Dây cương vàng
+    const t = Math.random();
+    x = -8 + t * 9;
+    y = -0.3 + Math.sin(t * Math.PI * 0.8) * 0.8;
+    z = 1 + (Math.random() - 0.5) * 0.8;
+    // Màu vàng lấp lánh
+    r = 1;
+    g = 0.85 + Math.random() * 0.15;
+    b = 0.2 + Math.random() * 0.2;
+  }
+  
+  sleighPositions[i * 3] = x;
+  sleighPositions[i * 3 + 1] = y;
+  sleighPositions[i * 3 + 2] = z;
+  
+  sleighColors[i * 3] = r;
+  sleighColors[i * 3 + 1] = g;
+  sleighColors[i * 3 + 2] = b;
+}
+
+const sleighGeo = new THREE.BufferGeometry();
+sleighGeo.setAttribute('position', new THREE.BufferAttribute(sleighPositions, 3));
+sleighGeo.setAttribute('color', new THREE.BufferAttribute(sleighColors, 3));
+
+const sleighMat = new THREE.PointsMaterial({
+  map: glowTexture,
+  size: 0.8,  // Tăng size để rõ hơn
+  vertexColors: true,
+  transparent: true,
+  opacity: 1.0,
+  blending: THREE.AdditiveBlending,
+  depthWrite: false
+});
+
+const sleighMesh = new THREE.Points(sleighGeo, sleighMat);
+sleighGroup.add(sleighMesh);
+
+// Trail particles (vệt sáng phía sau) - TĂNG SỐ LƯỢNG
+const TRAIL_COUNT = 200;
+const trailPositions = new Float32Array(TRAIL_COUNT * 3);
+const trailColors = new Float32Array(TRAIL_COUNT * 3);
+
+for (let i = 0; i < TRAIL_COUNT; i++) {
+  trailPositions[i * 3] = 3 + i * 0.3;
+  trailPositions[i * 3 + 1] = (Math.random() - 0.5) * 1;
+  trailPositions[i * 3 + 2] = 1 + (Math.random() - 0.5) * 1;
+  
+  const fade = 1 - i / TRAIL_COUNT;
+  trailColors[i * 3] = 1;
+  trailColors[i * 3 + 1] = 0.8 * fade;
+  trailColors[i * 3 + 2] = 0.3 * fade;
+}
+
+const trailGeo = new THREE.BufferGeometry();
+trailGeo.setAttribute('position', new THREE.BufferAttribute(trailPositions, 3));
+trailGeo.setAttribute('color', new THREE.BufferAttribute(trailColors, 3));
+
+const trailMat = new THREE.PointsMaterial({
+  map: glowTexture,
+  size: 0.4,
+  vertexColors: true,
+  transparent: true,
+  opacity: 0.6,
+  blending: THREE.AdditiveBlending,
+  depthWrite: false
+});
+
+const trailMesh = new THREE.Points(trailGeo, trailMat);
+sleighGroup.add(trailMesh);
+
+// Trailing banner text (like the sleigh is pulling it)
+const bannerCanvas = document.createElement('canvas');
+bannerCanvas.width = 1024;
+bannerCanvas.height = 256;
+const bannerCtx = bannerCanvas.getContext('2d');
+
+function roundRect(ctx, x, y, w, h, r) {
+  const radius = Math.min(r, w / 2, h / 2);
+  ctx.beginPath();
+  ctx.moveTo(x + radius, y);
+  ctx.arcTo(x + w, y, x + w, y + h, radius);
+  ctx.arcTo(x + w, y + h, x, y + h, radius);
+  ctx.arcTo(x, y + h, x, y, radius);
+  ctx.arcTo(x, y, x + w, y, radius);
+  ctx.closePath();
+}
+
+function drawBannerText() {
+  const ctx = bannerCtx;
+  ctx.clearRect(0, 0, bannerCanvas.width, bannerCanvas.height);
+
+  // Soft glow background
+  ctx.save();
+  ctx.globalAlpha = 0.9;
+  const bgGrad = ctx.createLinearGradient(0, 0, bannerCanvas.width, bannerCanvas.height);
+  bgGrad.addColorStop(0, 'rgba(255,120,190,0.20)');
+  bgGrad.addColorStop(0.55, 'rgba(160,120,255,0.16)');
+  bgGrad.addColorStop(1, 'rgba(110,220,255,0.10)');
+  ctx.fillStyle = bgGrad;
+  roundRect(ctx, 40, 46, bannerCanvas.width - 80, bannerCanvas.height - 92, 54);
+  ctx.fill();
+
+  // Inner glass
+  ctx.globalAlpha = 0.55;
+  ctx.fillStyle = 'rgba(10, 6, 18, 0.45)';
+  roundRect(ctx, 52, 58, bannerCanvas.width - 104, bannerCanvas.height - 116, 44);
+  ctx.fill();
+
+  // Border
+  ctx.globalAlpha = 0.9;
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = 'rgba(255,255,255,0.28)';
+  roundRect(ctx, 52, 58, bannerCanvas.width - 104, bannerCanvas.height - 116, 44);
+  ctx.stroke();
+
+  // Sparkles
+  ctx.globalAlpha = 0.55;
+  for (let i = 0; i < 120; i++) {
+    const x = 80 + Math.random() * (bannerCanvas.width - 160);
+    const y = 70 + Math.random() * (bannerCanvas.height - 140);
+    const s = 1 + Math.random() * 2.2;
+    ctx.fillStyle = `rgba(255,255,255,${0.12 + Math.random() * 0.35})`;
+    ctx.beginPath();
+    ctx.arc(x, y, s, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // Text
+  ctx.globalAlpha = 1;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+
+  ctx.font = '800 54px Poppins, Arial, sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.95)';
+  ctx.shadowColor = 'rgba(0,0,0,0.35)';
+  ctx.shadowBlur = 16;
+  ctx.shadowOffsetY = 8;
+  ctx.fillText('Chúc mừng sinh nhật', bannerCanvas.width / 2, 108);
+
+  ctx.shadowBlur = 0;
+  ctx.font = '400 64px "Great Vibes", cursive';
+  const nameGrad = ctx.createLinearGradient(260, 0, bannerCanvas.width - 260, 0);
+  nameGrad.addColorStop(0, 'rgba(255,240,248,0.98)');
+  nameGrad.addColorStop(0.5, 'rgba(255,180,222,0.98)');
+  nameGrad.addColorStop(1, 'rgba(200,190,255,0.98)');
+  ctx.fillStyle = nameGrad;
+  ctx.fillText('Liên Liên', bannerCanvas.width / 2, 168);
+
+  ctx.restore();
+}
+
+drawBannerText();
+const bannerTexture = new THREE.CanvasTexture(bannerCanvas);
+bannerTexture.needsUpdate = true;
+bannerTexture.minFilter = THREE.LinearFilter;
+bannerTexture.magFilter = THREE.LinearFilter;
+
+const bannerMat = new THREE.SpriteMaterial({
+  map: bannerTexture,
+  transparent: true,
+  opacity: 0.98,
+  depthTest: false,
+  depthWrite: false
+});
+
+const bannerSprite = new THREE.Sprite(bannerMat);
+bannerSprite.scale.set(28, 7, 1);
+bannerSprite.position.set(18, 2.6, 1.0);
+bannerSprite.renderOrder = 2000;
+sleighGroup.add(bannerSprite);
+
+/* ================= FIREWORKS (extra activity) ================= */
+const fireworks = [];
+let fireworksEnabled = false;
+let fireworksIntervalId = 0;
+
+function createFirework(origin, intensity = 1) {
+  const COUNT = Math.floor(80 * intensity);
+  const positions = new Float32Array(COUNT * 3);
+  const colors = new Float32Array(COUNT * 3);
+  const velocities = new Float32Array(COUNT * 3);
+
+  const baseHue = Math.random();
+  for (let i = 0; i < COUNT; i++) {
+    const idx = i * 3;
+    positions[idx] = origin.x;
+    positions[idx + 1] = origin.y;
+    positions[idx + 2] = origin.z;
+
+    // Random sphere velocity
+    const u = Math.random();
+    const v = Math.random();
+    const theta = 2 * Math.PI * u;
+    const phi = Math.acos(2 * v - 1);
+    const speed = (0.35 + Math.random() * 0.9) * intensity;
+    velocities[idx] = Math.sin(phi) * Math.cos(theta) * speed;
+    velocities[idx + 1] = Math.cos(phi) * speed;
+    velocities[idx + 2] = Math.sin(phi) * Math.sin(theta) * speed;
+
+    // Color from HSV-ish palette
+    const hue = (baseHue + Math.random() * 0.18) % 1;
+    const sat = 0.75 + Math.random() * 0.25;
+    const val = 0.85 + Math.random() * 0.15;
+    const color = new THREE.Color().setHSL(hue, sat, val);
+    colors[idx] = color.r;
+    colors[idx + 1] = color.g;
+    colors[idx + 2] = color.b;
+  }
+
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+  const mat = new THREE.PointsMaterial({
+    map: glowTexture,
+    size: 0.9,
+    vertexColors: true,
+    transparent: true,
+    opacity: 1,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false
+  });
+
+  const points = new THREE.Points(geo, mat);
+  points.renderOrder = 5000;
+  scene.add(points);
+
+  fireworks.push({
+    points,
+    velocities,
+    life: 1,
+    decay: 0.016 + Math.random() * 0.01,
+    gravity: 0.012 + Math.random() * 0.01
+  });
+
+  // Cap active fireworks
+  while (fireworks.length > 10) {
+    const old = fireworks.shift();
+    scene.remove(old.points);
+    old.points.geometry.dispose();
+    old.points.material.dispose();
+  }
+}
+
+function spawnFireworkNearHeart(strength = 1) {
+  const origin = new THREE.Vector3(
+    (Math.random() - 0.5) * 26,
+    10 + Math.random() * 18,
+    (Math.random() - 0.5) * 26
+  );
+  createFirework(origin, strength);
+}
+
+window.addEventListener('experience:start', () => {
+  fireworksEnabled = true;
+  // Big welcoming burst
+  spawnFireworkNearHeart(1.15);
+  setTimeout(() => spawnFireworkNearHeart(1.0), 420);
+
+  // Auto fireworks
+  fireworksIntervalId = window.setInterval(() => {
+    if (!document.body.classList.contains('experience-on')) return;
+    if (document.body.classList.contains('final-on')) return;
+    if (document.body.classList.contains('wishes-on')) return;
+    spawnFireworkNearHeart(0.9);
+  }, 2300);
+
+  // Safety: stop if page hidden
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && fireworksIntervalId) clearInterval(fireworksIntervalId);
+  }, { once: true });
+});
+
+// Tap/click anywhere to launch fireworks (only after experience starts)
+document.addEventListener('pointerdown', () => {
+  if (!fireworksEnabled) return;
+  if (!document.body.classList.contains('experience-on')) return;
+  if (document.body.classList.contains('final-on')) return;
+  if (document.body.classList.contains('wishes-on')) return;
+  spawnFireworkNearHeart(1.05);
+}, { passive: true });
+
+// Sleigh orbit parameters
+const SLEIGH_RADIUS = 35;
+const SLEIGH_HEIGHT = 15;
+const SLEIGH_SPEED = 0.3;
+
+let lastFrameTime = Date.now() * 0.001;
+
+/* ================= ANIMATE ================= */
+function animate() {
+  requestAnimationFrame(animate);
+
+  // Do not advance effects until the card overlay has fully disappeared.
+  if (!document.body.classList.contains('experience-on')) return;
+  
+  const time = Date.now() * 0.001;
+  const dt = Math.min(0.05, Math.max(0.0, time - lastFrameTime));
+  lastFrameTime = time;
+
+  // Subtle ambient motion (camera + stars)
+  if (starMesh) {
+    starMesh.rotation.y += dt * 0.02;
+    starMesh.rotation.x += dt * 0.007;
+  }
+
+  // Fireworks update
+  for (let fi = fireworks.length - 1; fi >= 0; fi--) {
+    const fw = fireworks[fi];
+    fw.life -= fw.decay;
+
+    const geo = fw.points.geometry;
+    const posAttr = geo.getAttribute('position');
+    const pos = posAttr.array;
+    const vel = fw.velocities;
+
+    for (let i = 0; i < pos.length; i += 3) {
+      vel[i + 1] -= fw.gravity;
+      pos[i] += vel[i];
+      pos[i + 1] += vel[i + 1];
+      pos[i + 2] += vel[i + 2];
+
+      // subtle drag
+      vel[i] *= 0.985;
+      vel[i + 1] *= 0.985;
+      vel[i + 2] *= 0.985;
+    }
+    posAttr.needsUpdate = true;
+
+    fw.points.material.opacity = Math.max(0, fw.life);
+    fw.points.material.size = 0.9 + (1 - fw.life) * 0.6;
+
+    if (fw.life <= 0) {
+      scene.remove(fw.points);
+      fw.points.geometry.dispose();
+      fw.points.material.dispose();
+      fireworks.splice(fi, 1);
+    }
+  }
+  
+  // Heart -> Cake morph progress
+  if (morphActive && cakeTargets) {
+    morphProgress = Math.min(1, morphProgress + dt / MORPH_DURATION_SEC);
+
+    if (!cakeDoneDispatched && morphProgress >= 1) {
+      cakeDoneDispatched = true;
+      window.dispatchEvent(new Event('cake:done'));
+    }
+
+    // Blend particle colors toward cake palette
+    if (cakeColorTargets) {
+      const tcol = smoothstep(Math.max(0, (morphProgress - 0.05) / 0.95));
+      for (let i = 0; i < CONFIG.heartParticles; i++) {
+        const ci = i * 3;
+        heartColors[ci] += (cakeColorTargets[ci] - heartColors[ci]) * (0.06 + tcol * 0.12);
+        heartColors[ci + 1] += (cakeColorTargets[ci + 1] - heartColors[ci + 1]) * (0.06 + tcol * 0.12);
+        heartColors[ci + 2] += (cakeColorTargets[ci + 2] - heartColors[ci + 2]) * (0.06 + tcol * 0.12);
+      }
+      heartGeo.attributes.color.needsUpdate = true;
+    }
+  }
+
+  // Animate heart particles (or morph targets)
+  const hPos = heartGeo.attributes.position.array;
+  const tm = morphActive && cakeTargets ? smoothstep(morphProgress) : 0;
+  for (let i = 0; i < CONFIG.heartParticles; i++) {
+    const idx = i * 3;
+    const speed = heartSpeeds[i];
+
+    // Dynamic target: interpolate from heart -> cake
+    let tx, ty, tz;
+    if (morphActive && cakeTargets) {
+      const a = HEART_POINTS[i];
+      const b = cakeTargets[i];
+      tx = a.x + (b.x - a.x) * tm;
+      ty = a.y + (b.y - a.y) * tm;
+      tz = a.z + (b.z - a.z) * tm;
+    } else {
+      const target = heartTargets[i];
+      tx = target.x;
+      ty = target.y;
+      tz = target.z;
+    }
+    
+    hPos[idx] += (tx - hPos[idx]) * speed;
+    hPos[idx + 1] += (ty - hPos[idx + 1]) * speed;
+    hPos[idx + 2] += (tz - hPos[idx + 2]) * speed;
+  }
+  heartGeo.attributes.position.needsUpdate = true;
+  
+  // Animate STREAM particles (bay vào bồi đắp tim)
+  const sPos = streamGeo.attributes.position.array;
+  for (let i = 0; i < STREAM_COUNT; i++) {
+    const idx = i * 3;
+    const target = streamTargets[i];
+    const speed = streamSpeeds[i];
+    
+    // Bay về phía target
+    sPos[idx] += (target.x - sPos[idx]) * speed;
+    sPos[idx + 1] += (target.y - sPos[idx + 1]) * speed;
+    sPos[idx + 2] += (target.z - sPos[idx + 2]) * speed;
+    
+    // Kiểm tra đã đến gần target chưa
+    const dx = target.x - sPos[idx];
+    const dy = target.y - sPos[idx + 1];
+    const dz = target.z - sPos[idx + 2];
+    const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
+    
+    if (dist < 1) {
+      // Đã đến - reset particle
+      resetStreamParticle(i);
+    }
+  }
+  streamGeo.attributes.position.needsUpdate = true;
+  
+  // Pulse/rotation: reduce once it becomes a cake
+  const pulse = 1 + Math.sin(time * 2) * 0.02;
+  const cakeMix = morphActive ? tm : 0;
+  const pulseMix = 1 - cakeMix * 0.85;
+  heartMesh.scale.set(1 + (pulse - 1) * pulseMix, 1 + (pulse - 1) * pulseMix, 1 + (pulse - 1) * pulseMix);
+  heartMesh.rotation.y = Math.sin(time * 0.3) * 0.1 * (1 - cakeMix * 0.9);
+  heartMesh.rotation.x = Math.sin(time * 0.25) * 0.05 * (1 - cakeMix * 0.9);
+  
+  // Ring xoay
+  ringMesh.rotation.y += 0.01;
+  
+  // 🎅🦌 Santa Sleigh bay vòng vòng quanh tim
+  const sleighAngle = time * SLEIGH_SPEED;
+  const sleighX = Math.cos(sleighAngle) * SLEIGH_RADIUS;
+  const sleighZ = Math.sin(sleighAngle) * SLEIGH_RADIUS;
+  const sleighY = SLEIGH_HEIGHT + Math.sin(time * 0.8) * 3; // Bay lên xuống nhẹ
+  
+  sleighGroup.position.set(sleighX, sleighY, sleighZ);
+  sleighGroup.rotation.y = -sleighAngle + Math.PI / 2; // Hướng theo đường bay
+  
+  // Tuần lộc chạy (nhấp nhô)
+  sleighMesh.position.y = Math.sin(time * 8) * 0.15;
+
+  // Banner wobble so it feels like it's being pulled
+  if (bannerSprite) {
+    bannerSprite.position.y = 2.6 + Math.sin(time * 3.2) * 0.22;
+    bannerSprite.material.opacity = 0.92 + Math.sin(time * 2.1) * 0.06;
+  }
+
+  // Mid birthday text (between cake and ring)
+  if (midTextSprite) {
+    const showText = morphActive ? smoothstep((morphProgress - 0.25) / 0.45) : 0;
+    midTextSprite.material.opacity = 0.92 * showText;
+    midTextSprite.position.y = -14 + Math.sin(time * 1.6) * 0.35;
+  }
+
+  // Candle flames (appear near end of morph)
+  if (flameMesh && flameBase && flamePhase) {
+    const showFlame = morphActive ? smoothstep((morphProgress - 0.55) / 0.45) : 0;
+    const arr = flameMesh.geometry.attributes.position.array;
+    for (let i = 0; i < flamePhase.length; i++) {
+      const idx = i * 3;
+      const flick = 0.22 + Math.sin(time * 10 + flamePhase[i]) * 0.18;
+      arr[idx] = flameBase[idx] + Math.sin(time * 6.2 + flamePhase[i]) * 0.06;
+      arr[idx + 1] = flameBase[idx + 1] + flick;
+      arr[idx + 2] = flameBase[idx + 2] + Math.cos(time * 6.0 + flamePhase[i]) * 0.06;
+    }
+    flameMesh.geometry.attributes.position.needsUpdate = true;
+    flameMesh.material.opacity = 1.0 * showFlame;
+    flameMesh.material.size = 1.18 + Math.sin(time * 7.5) * 0.22;
+  }
+  
+  // Floating particles bay lên
+  const fPos = floatGeo.attributes.position.array;
+  for (let i = 0; i < FLOAT_COUNT; i++) {
+    fPos[i * 3 + 1] += floatSpeeds[i];
+    if (fPos[i * 3 + 1] > 40) {
+      fPos[i * 3 + 1] = -35;
+      fPos[i * 3] = (Math.random() - 0.5) * 60;
+      fPos[i * 3 + 2] = (Math.random() - 0.5) * 60;
+    }
+  }
+  floatGeo.attributes.position.needsUpdate = true;
+  
+  // ❄️ SNOW FALLING
+  const snPos = snowGeo.attributes.position.array;
+  for (let i = 0; i < SNOW_COUNT; i++) {
+    const idx = i * 3;
+    // Rơi xuống
+    snPos[idx + 1] -= snowSpeeds[i];
+    // Lắc lư theo gió
+    snPos[idx] += Math.sin(time * 2 + snowDrifts[i]) * 0.02;
+    snPos[idx + 2] += Math.cos(time * 1.5 + snowDrifts[i]) * 0.015;
+    
+    // Reset khi rơi quá thấp
+    if (snPos[idx + 1] < -30) {
+      snPos[idx] = (Math.random() - 0.5) * 100;
+      snPos[idx + 1] = 50 + Math.random() * 20;
+      snPos[idx + 2] = (Math.random() - 0.5) * 100;
+    }
+  }
+  snowGeo.attributes.position.needsUpdate = true;
+  
+  // 🎅 Santa hat nhấp nhô nhẹ theo nhịp tim
+  hatMesh.position.y = Math.sin(time * 2) * 0.3;
+  hatMesh.rotation.z = Math.sin(time * 0.5) * 0.05; // Nghiêng nhẹ
+  
+  // Fade in ảnh từ từ (dùng window reference)
+  if (imageReady && window.imageMat && imageOpacity < 1) {
+    imageOpacity += 0.003; // Fade chậm hơn, lãng mạn hơn
+    window.imageMat.opacity = Math.min(imageOpacity, 1);
+  }
+  
+  // Image pulse theo tim
+  if (window.imageSprite) {
+    window.imageSprite.scale.set(
+      CONFIG.imageSize * pulse,
+      CONFIG.imageSize * pulse,
+      1
+    );
+  }
+  
+  renderer.render(scene, camera);
+}
+animate();
+
+/* ================= RESIZE ================= */
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  updateCamera();
+});
+</script>
+</body>
+</html>
